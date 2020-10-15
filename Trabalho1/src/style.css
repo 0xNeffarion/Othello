@@ -39,6 +39,9 @@ div {
     width: 100%;
     display: inline-block;
     height: 85%;
+    background-color: green;
+    empty-cells: show;
+    border: 5px solid white;
 }
 
 #tabuleiro th,
