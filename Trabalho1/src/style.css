@@ -10,7 +10,7 @@ body {
 }
 
 div {
-    border: solid 1px  green;   
+    border: solid 1px  green;
 }
 
 #wrapper {
@@ -28,6 +28,48 @@ div {
     font-style:     normal;
     text-align:   center;
     font-size: 38px;
+}
+
+#jogo {
+    height: 700px;
+}
+
+#tabuleiro {
+    width: 40%;
+    height: 500px;
+    float: left;
+    background-color: green;
+    empty-cells: show;
+    border: 5px solid white;
+}
+
+#tabuleiro th,
+#tabuleiro td{
+  height: 62.5px;
+  width: 62.5px;
+  border:3px solid black;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.white{
+  background-color: white;
+}
+
+.black{
+  background-color: black;
+}
+
+
+#editor {
+    width: 45%;
+    height: 100%;
+    float: left;
 }
 
 #jogo {
