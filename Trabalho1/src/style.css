@@ -11,7 +11,7 @@ body {
 }
 
 div {
-    border: solid 1px  green;   
+    border: solid 1px  green;
 }
 
 #wrapper {
@@ -35,6 +35,34 @@ div {
     height: 600px;
 }
 
+#tabuleiro {
+    width: 100%;
+    display: inline-block;
+    height: 85%;
+}
+
+#tabuleiro th,
+#tabuleiro td{
+  height: 62.5px;
+  width: 62.5px;
+  border:3px solid black;
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.white{
+  background-color: white;
+}
+
+.black{
+  background-color: black;
+}
+
 #lado-esq {
     width: 39%;
     height: 100%;
@@ -42,11 +70,7 @@ div {
     border: solid 1px orange;
 }
 
-#tabuleiro {
-    width: 100%;
-    display: inline-block;
-    height: 85%;
-}
+
 
 #btn-tabuleiro {
     width: 100%;
