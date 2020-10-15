@@ -4,17 +4,44 @@
 body {
     width: 1280px;
     font-family: 'Open Sans', sans-serif;
+    background-color: rgb(39, 39, 39);
     color: white;
+    margin: 0 auto;
+}
+
+div {
+    border: solid 1px  green;   
 }
 
 #wrapper {
+    width: 100%;
+    border: solid 1px red;
     margin: 0 auto;
+    position: relative;
+    display: inline-block;
     text-align: center;
 }
 
 #logotipo h3 {
     font-family: 'Sansita Swashed', cursive, sans-serif;
-    font-weight:      bold;
+    font-weight:    bold;
     font-style:     normal;
-    text-align: center;
+    text-align:   center;
+    font-size: 38px;
+}
+
+#jogo {
+    height: 700px;
+}
+
+#tabuleiro {
+    width: 40%;
+    height: 500px;
+    float: left;
+}
+
+#editor {
+    width: 45%;
+    height: 100%;
+    float: left;
 }
