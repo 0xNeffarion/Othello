@@ -9,3 +9,10 @@ body {
     margin: 0 auto;
     text-align: center;
 }
+h3{
+  font-family: 'Sansita Swashed', cursive, sans-serif;
+  font-weight:      bold;
+  font-style:     normal;
+  color: white;
+  text-align: center;
+}
