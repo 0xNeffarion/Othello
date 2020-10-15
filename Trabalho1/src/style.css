@@ -4,22 +4,17 @@
 body {
     width: 1280px;
     font-family: 'Open Sans', sans-serif;
+    color: white;
 }
 
 #wrapper {
     margin: 0 auto;
     text-align: center;
 }
-<<<<<<< HEAD
 
 #logotipo h3 {
     font-family: 'Sansita Swashed', cursive, sans-serif;
-    font-family: 'Sansita Swashed', cursive, sans-serif;
     font-weight:      bold;
     font-style:     normal;
-    color: white;
     text-align: center;
 }
-=======
-
->>>>>>> 680e190db7ab0c97a1213932a9195946c837d38e
