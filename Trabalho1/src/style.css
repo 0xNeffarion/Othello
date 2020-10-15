@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
 body {
     width: 1280px;
-    font-family: 'Sansita Swashed', cursive, sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 #wrapper {
     margin: 0 auto;
     text-align: center;
+}
+
+#logotipo h3 {
+    font-family: 'Sansita Swashed', cursive, sans-serif;
 }
