@@ -35,20 +35,35 @@ div {
     height: 600px;
 }
 
-#tabuleiro {
+/*#tabuleiro {
+    border: 5px white;
     width: 100%;
     display: inline-block;
     height: 85%;
     background-color: green;
     empty-cells: show;
-    border: 5px solid white;
 }
 
-#tabuleiro th,
-#tabuleiro td{
+#tabuleiro th{
   height: 62.5px;
   width: 62.5px;
-  border:3px solid black;
+  border:5px solid black;
+  text-align: center;
+}*/
+
+#tabuleiro{
+  background-color: green;
+  width: 100%;
+  display: inline-block;
+  height: 100%;
+}
+.tabuleiro div{
+  float:left;
+  width: 11.68%;
+  height: 30px;
+  border: 2px solid black;
+  background-color: green;
+  display: inline-block;
 }
 
 .dot {
@@ -92,7 +107,7 @@ div {
     float: left;
     width: 15.5%;
     height: 100%;
-    border: 1px solid yellow;   
+    border: 1px solid yellow;
 }
 
 #menu ul {
@@ -136,5 +151,3 @@ div {
 #menu ul li a:active  {
     color: rgb(25, 109, 206);
 }
-
-
