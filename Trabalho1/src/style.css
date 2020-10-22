@@ -10,10 +10,6 @@ body {
     font-size: 16   px;
 }
 
-div {
-    border: solid 1px  green;
-}
-
 #wrapper {
     width: 100%;
     border: solid 1px red;
@@ -31,44 +27,39 @@ div {
     font-size: 40px;
 }
 
+#logotipo {
+    border-bottom: 1px white solid;
+}
+
 #jogo {
     height: 600px;
 }
 
-/*#tabuleiro {
-    border: 5px white;
-    width: 100%;
-    display: inline-block;
-    height: 85%;
-    background-color: green;
-    empty-cells: show;
-}
-
-#tabuleiro th{
-  height: 62.5px;
-  width: 62.5px;
-  border:5px solid black;
-  text-align: center;
-}*/
-
-#tabuleiro{
+#tabuleiro table{
   background-color: green;
+  border: 3px solid rgb(184, 184, 184);
   width: 100%;
-  display: inline-block;
-  height: 100%;
+  height: 70%;
+  text-align: center;
 }
-.tabuleiro div{
-  float:left;
-  width: 11.68%;
-  height: 30px;
-  border: 2px solid black;
-  background-color: green;
-  display: inline-block;
+
+#tabuleiro table tbody {
+    text-align: center; 
+}
+
+#tabuleiro table tr{
+    border: 3px solid black;
+}
+
+#tabuleiro table td{
+    border: 3px solid black;
+    height: 40px;
+    width: 40px;
 }
 
 .dot {
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
   border-radius: 50%;
   display: inline-block;
 }
@@ -87,8 +78,6 @@ div {
     float: left;
     border: solid 1px orange;
 }
-
-
 
 #btn-tabuleiro {
     width: 100%;
@@ -151,3 +140,51 @@ div {
 #menu ul li a:active  {
     color: rgb(25, 109, 206);
 }
+
+#identificacao #normal form {
+    margin-top: 10px;
+}
+
+#identificacao #normal form input {
+    margin: 0 auto;
+    margin-top: 5px;
+    text-align: center;
+    display: block;
+    width: 240px;
+}
+
+#identificacao #normal form input[type=submit]{
+    width: 150px;
+    height: 35px;
+    font-weight: bold;
+}
+
+#authenticated {
+    display:none;
+}
+
+#authenticated form {
+    border: 0px;
+    margin: 3px;
+}
+
+input[type=submit]{
+    color: white;
+    background-color: transparent;
+    border: 1px white solid;
+    font-size: 15px;
+    min-width: 90px;
+    min-height: 40px;
+}
+
+input[type=submit]:hover{
+    color: rgb(25, 206, 206);
+    background-color: rgb(54, 54, 54);
+}
+
+input[type=submit]:active{
+    color: rgb(25, 109, 206);
+}
+
+
+

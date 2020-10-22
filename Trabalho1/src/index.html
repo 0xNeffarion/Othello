@@ -8,19 +8,119 @@
             <div id="logotipo"><h3>Othello</h3></div>
             <div id="jogo">
                 <div id="lado-esq">
-                  <div class="tabuleiro">
-
+                  <div id="tabuleiro">
+                    <table>
+                        <tbody>
+                        <tr id="row-1">
+                            <td class="col-1"></td>
+                            <td class="col-2"></td>
+                            <td class="col-3"></td>
+                            <td class="col-4"></td>
+                            <td class="col-5"></td>
+                            <td class="col-6"></td>
+                            <td class="col-7"></td>
+                            <td class="col-8"></td>
+                        </tr>
+                        <tr id="row-2">
+                            <td class="col-1"></td>
+                            <td class="col-2"></td>
+                            <td class="col-3"></td>
+                            <td class="col-4"></td>
+                            <td class="col-5"></td>
+                            <td class="col-6"></td>
+                            <td class="col-7"></td>
+                            <td class="col-8"></td>
+                        </tr>
+                        <tr id="row-3">
+                            <td class="col-1"></td>
+                            <td class="col-2"></td>
+                            <td class="col-3"></td>
+                            <td class="col-4"></td>
+                            <td class="col-5"></td>
+                            <td class="col-6"></td>
+                            <td class="col-7"></td>
+                            <td class="col-8"></td>
+                        </tr>
+                        <tr id="row-4">
+                            <td class="col-1"></td>
+                            <td class="col-2"></td>
+                            <td class="col-3"></td>
+                            <td class="col-4"></td>
+                            <td class="col-5"></td>
+                            <td class="col-6"></td>
+                            <td class="col-7"></td>
+                            <td class="col-8"></td>
+                        </tr>
+                        <tr id="row-5">
+                            <td class="col-1"></td>
+                            <td class="col-2"></td>
+                            <td class="col-3"></td>
+                            <td class="col-4"></td>
+                            <td class="col-5"></td>
+                            <td class="col-6"></td>
+                            <td class="col-7"></td>
+                            <td class="col-8"></td>
+                        </tr>
+                        <tr id="row-6">
+                            <td class="col-1"></td>
+                            <td class="col-2"></td>
+                            <td class="col-3"></td>
+                            <td class="col-4"></td>
+                            <td class="col-5"></td>
+                            <td class="col-6"></td>
+                            <td class="col-7"></td>
+                            <td class="col-8"></td>
+                        </tr>
+                        <tr id="row-7">
+                            <td class="col-1"></td>
+                            <td class="col-2"></td>
+                            <td class="col-3"></td>
+                            <td class="col-4"></td>
+                            <td class="col-5"></td>
+                            <td class="col-6"></td>
+                            <td class="col-7"></td>
+                            <td class="col-8"></td>
+                        </tr>
+                        <tr id="row-8">
+                            <td class="col-1"></td>
+                            <td class="col-2"></td>
+                            <td class="col-3"></td>
+                            <td class="col-4"></td>
+                            <td class="col-5"></td>
+                            <td class="col-6"></td>
+                            <td class="col-7"></td>
+                            <td class="col-8"></td>
+                        </tr>
+                    </tbody>
+                    </table>
                   </div>
-
                 </div>
-                <div id="editor"></div>
+                <div id="editor">
+                    <div id="identificacao">
+                        <div id="authenticated">
+                            <br/>
+                            Autenticado como: <div id="nome_util"></div><br/>
+                            <form method="post" name="logout">
+                                <input type="submit" name="btnLogout" value="Terminal sessão" />
+                            </form>
+                        </div>
+                        <div id="normal">
+                            <form method="post" name="login">
+                                Utilizador: <input type="text" name="username" /><br/>
+                                Password: <input type="password" name="password"/><br/>
+                                <input type="submit" name="btnLogin" value="Submeter" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div id="menu">
                     <ul>
-                        <li><a href="#">Instruções</a></li>
-                        <li><a href="#">Configuração</a></li>
-                        <li><a href="#">Identificação</a></li>
-                        <li><a href="#">Estado</a></li>
-                        <li><a href="#">Classificações</a></li>
+                        <li><a href="#" id="menu_1" onclick="menuSwitch(this.id)" >Instruções</a></li>
+                        <li><a href="#" id="menu_2" onclick="menuSwitch(this.id)" >Configuração</a></li>
+                        <li><a href="#" id="menu_3" onclick="menuSwitch(this.id)" >Identificação</a></li>
+                        <li><a href="#" id="menu_4" onclick="menuSwitch(this.id)" >Estado</a></li>
+                        <li><a href="#" id="menu_5" onclick="menuSwitch(this.id)" >Classificações</a></li>
+                        <li><a href="#" id="menu_6" onclick="menuSwitch(this.id)" >Mensagens</a></li>
                     </ul>
                 </div>
             </div>
