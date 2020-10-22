@@ -92,6 +92,22 @@ body {
     float: left;
 }
 
+#mensagens{
+  display: none;
+}
+
+#instructions{
+  display: none;
+}
+
+#configu{
+  display: none;
+}
+
+#classicacoes{
+  display: none;
+}
+
 #menu {
     float: left;
     width: 15.5%;
