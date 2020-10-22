@@ -8,5 +8,5 @@ panels[4] = "menu_5";
 panels[5] = "menu_6";
 
 function menuSwitch(id){
-    document.getElementById()
+    document.getElementById(id).style.display = block;
 }
