@@ -80,7 +80,7 @@ body {
 }
 
 #lado-esq {
-    width: 34%;
+    width: 33%;
     height: 100%;
     float: left;
 }
@@ -92,14 +92,13 @@ body {
 }
 
 #editor {
-    width: 45%;
-    min-height: 66.68%;
+    width: 47%;
+    min-height: 53.8%;
     height: auto;
     float: left;
     padding: 25px;
     padding-top: 15px;
     border: 3px solid white;
-
 }
 
 #identificacao{
