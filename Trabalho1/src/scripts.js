@@ -9,6 +9,7 @@ const MENU_PANELS = [
 
 window.onload = function() {
     addListeners();
+    startGame();
 }
 
 const menuSwitch = function(id) {
