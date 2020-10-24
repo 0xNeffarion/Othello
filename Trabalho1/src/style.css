@@ -23,12 +23,12 @@ body {
     font-weight: bold;
     font-style: normal;
     text-align: center;
-    font-size: 40px;
+    font-size: 42px;
 }
 
 #logotipo {
-    border-bottom: 1px white solid;
-    margin-bottom: 80px;
+    border-bottom: 2px white solid;
+    margin-bottom: 40px;
 }
 
 #jogo {
@@ -80,7 +80,7 @@ body {
 }
 
 #lado-esq {
-    width: 39%;
+    width: 34%;
     height: 100%;
     float: left;
 }
@@ -96,8 +96,14 @@ body {
     min-height: 66.68%;
     height: auto;
     float: left;
-    padding-top: 20px;
+    padding: 25px;
+    padding-top: 15px;
     border: 3px solid white;
+
+}
+
+#identificacao{
+    display: none;
 }
 
 #mensagens{
@@ -105,10 +111,10 @@ body {
 }
 
 #instructions{
-  display: none;
+  display: block;
 }
 
-#configu{
+#configuracao{
   display: none;
 }
 
@@ -118,8 +124,8 @@ body {
 
 #menu {
     float: left;
-    width: 15.3%;
-    height: 100%;
+    width: 15.0%;
+    border: 2px solid white;
 }
 
 #menu ul {
@@ -152,6 +158,7 @@ body {
 }
 
 #menu ul li a, a:visited{
+    cursor: pointer;
     color: white;
     text-decoration: none;
 }
@@ -198,6 +205,7 @@ input[type=submit]{
     font-size: 15px;
     min-width: 90px;
     min-height: 40px;
+    cursor: pointer;
 }
 
 input[type=submit]:hover{
@@ -209,5 +217,30 @@ input[type=submit]:active{
     color: rgb(25, 109, 206);
 }
 
+select {
+    min-width: 150px;
+    text-align: center;
+}
 
+#instructions ul {
+    list-style: none;
+    padding: 0;
+}
 
+#instructions ul li {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#configuracao{
+    padding-top: 10px;
+}
+
+#configuracao form select{
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+#mensagens {
+    font-size: 18px;
+}

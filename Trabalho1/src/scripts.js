@@ -1,12 +1,44 @@
-const panels = new Array(6);
+const menus_panels = [
+    ["menu_1", "instructions"],
+    ["menu_2", "configuracao"],
+    ["menu_3", "identificacao"],
+    ["menu_4", "estado"],
+    ["menu_5", "classicacoes"],
+    ["menu_6", "mensagens"],
+];
 
-panels[0] = "menu_1";
-panels[1] = "menu_2";
-panels[2] = "menu_3";
-panels[3] = "menu_4";
-panels[4] = "menu_5";
-panels[5] = "menu_6";
-
-function menuSwitch(id){
-    document.getElementById(id).style.display = block;
+window.onload = function() {
+    addListeners();
 }
+
+const menuSwitch = function(id) {
+    for (let i = 0; i < menus_panels.length; i++) {
+        var element = document.getElementById(menus_panels[i][1]);
+        if(element != null){
+            element.style.display = "none";
+        }
+    }
+
+    for (let i = 0; i < menus_panels.length; i++) {
+        if(menus_panels[i][0] == id){
+            var element = document.getElementById(menus_panels[i][1]);
+            if(element != null){
+                element.style.display = "block";
+                break;
+            }
+        }
+    }
+}
+
+const addListeners = function(){
+    for (let i = 0; i < menus_panels.length; i++) {
+        var menuId = menus_panels[i][0];
+        var element = document.getElementById(menuId);
+        if(element != null){
+            element.addEventListener("click", function(){ menuSwitch(this.id); });
+        }
+    }
+}
+
+
+

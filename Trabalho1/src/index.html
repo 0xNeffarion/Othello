@@ -1,7 +1,10 @@
+<!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="./style.css" />
-        <meta http-equiv=”Content-Type” content="text/html"; charset="utf-8">
+        <script type="text/javascript" src="./scripts.js"></script>
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+        <meta name="viewport" content="width=device-width"/>
     </head>
     <body>
         <div id="wrapper">
@@ -9,7 +12,7 @@
             <div id="jogo">
                 <div id="lado-esq">
                   <div id="tabuleiro">
-                    <table >
+                    <table>
                         <tbody>
                         <tr id="row-1">
                             <td class="col-1"></td>
@@ -96,91 +99,82 @@
                   </div>
                 </div>
                 <div id="editor">
-                <div id="identificacao">
-                    <div id="authenticated">
-                        <br/>
-                        Autenticado como: <div id="nome_util"></div><br/>
-                        <form method="post" name="logout">
-                            <input type="submit" name="btnLogout" value="Terminal sessão" />
-                        </form>
-                    </div>
-                    <div id="normal">
-                        <form method="post" name="login">
-                            Utilizador: <input type="text" name="username" /><br/>
-                            Password: <input type="password" name="password"/><br/>
-                            <input type="submit" name="btnLogin" value="Submeter" />
-                        </form>
-                    </div>
-                    <div id="instructions">
-                      <ul>
-                        <li>Primeiro passo, deves escolher a cor com que queres jogar;</li>
-                        <li>De seguida, colocar os 4 discos no centro do tabuleiro, estes devem ser dispostos de maneira que os 2 discos pretos fiquem em diagonal numa direção e as 2 brancas na outra.</li>
-                        <li>Mediante a tua cor, deves colocar o teu novo disco de forma a que a cor oposta fica no centro.</li>
-                        <li>Se conseguires ter um disco de cor oposta entre os da tua cor, esse tomará a tua cor.</li>
-                        <li>Evitar ficar em posição em que o teu oponente possa rodear os teus discos e dessa forma ganhar mais discos.</li>
-                        <li>No final, ganha quem tiver mais discos das sua cor.</li>
-                      </ul>
-                    </div>
-                    <div id="configu">
-                      <ul>
-                      <p><label for = "oponente">Contra quem queres jogar?</label>
+                  <div id="identificacao">
+                      <div id="authenticated">
+                          <br/>
+                          Autenticado como: <div id="nome_util"></div><br/>
+                          <form method="post" name="logout">
+                              <input type="submit" name="btnLogout" value="Terminal sessão" />
+                          </form>
+                      </div>
+                      <div id="normal">
+                          <form method="post" name="login">
+                              Utilizador: <input type="text" name="username" /><br/>
+                              Password: <input type="password" name="password"/><br/>
+                              <input type="submit" name="btnLogin" value="Submeter" />
+                          </form>
+                      </div>
+                  </div>
+                  <div id="instructions">
+                    <ul id="instructions_list">
+                      <li>Primeiro passo, deves escolher a cor com que queres jogar;</li>
+                      <li>De seguida, colocar os 4 discos no centro do tabuleiro, estes devem ser dispostos de maneira que os 2 discos pretos fiquem em diagonal numa direção e as 2 brancas na outra;</li>
+                      <li>Mediante a tua cor, deves colocar o teu novo disco de forma a que a cor oposta fica no centro;</li>
+                      <li>Se conseguires ter um disco de cor oposta entre os da tua cor, esse tomará a tua cor;</li>
+                      <li>Evitar ficar em posição em que o teu oponente possa rodear os teus discos e dessa forma ganhar mais discos;</li>
+                      <li>No final, ganha quem tiver mais discos das sua cor.</li>
+                    </ul>
+                  </div>
+                  <div id="configuracao">
+                    <form method="post" name="config">
+                      Jogar contra: <br/>
                       <select name="oponente" id="oponente">
                         <option value="pc">PC</option>
-                        <option value="outro">Outro jogador</option>
-                      </select></p>
-                      <p><label for = "cor">Qual é a tua cor?</label>
+                        <option value="jogador">Jogador</option>
+                      </select>
+                      <br/>
+                      Cor a jogar:<br/>
                       <select name="cor" id="cor">
                         <option value="branco">Branco</option>
                         <option value="preto">Preto</option>
-                      </select></p>
-                      <p><label for="dificuldade">Nível de dificuldade</label>
+                      </select>
+                      <br/>
+                      Nível de dificuldade:<br/>
                       <select name="dificuldade" id="dificuldade">
                         <option value="facil">Fácil</option>
-                        <option value="medio">Médio</option>
+                        <option value="normal" selected>Normal</option>
                         <option value="dificil">Difícil</option>
-                      </select></p>
-                      </ul>
-                    </div>
-                    <div id="mensagens">
-                      <div id="terminou" >O jogo terminou!</div>
-                      <div id="impossivel" >A jogada é impossível!</div>
-                      <div id="jogapreto" >É o disco preto a jogar!</div>
-                      <div id="jogabranco" >É o disco branco a jogar!</div>
-                      <div id="desist" >O jogador desistiu e perdeu!</div>
-                    </div>
-                    <div id="classicacoes">
-                      <table>
-                        <tr>
-                          <td id="jogaum">Jogador: </td>
-                          <td id="jogaumpontos"> </td>
-                          <td>Pontos</td>
-                        </tr>
-                        <tr>
-                          <td id="jogapc">Computador: </td>
-                          <td id="jogapcpontos"> </td>
-                          <td>Pontos</td>
-                        </tr>
-                        <tr>
-                          <td id="jogadois">Oponente: </td>
-                          <td id="jogadoispontos"> </td>
-                          <td>Pontos</td>
-                        </tr>
-                    </table>
-                    </div>
-                </div>
-            </div>
+                      </select>
+                      <br/>
+                      <input type="submit" value="Começar novo jogo" />
+                    </form>
+                  </div>
+                  <div id="mensagens">
+                    <div id="terminou">O jogo terminou!</div>
+                    <div id="impossivel">A jogada é impossível!</div>
+                    <div id="jogapreto">É o disco preto a jogar!</div>
+                    <div id="jogabranco">É o disco branco a jogar!</div>
+                    <div id="desist">O jogador desistiu e perdeu!</div>
+                  </div>
+                  <div id="classicacoes">
+                    <div>Jogador: <span id="pontos_jogador"></span> Pontos</div>
+                    <div>Computador: <span id="pontos_computador"></span> Pontos</div>
+                    <div>Oponente: <span id="pontos_oponente"></span> Pontos</div>
+                  </div>
+              </div>
             <div id="menu">
                 <ul>
-                    <li><a href="#" id="menu_1" onclick="menuSwitch(this.id)" >Instruções</a></li>
-                    <li><a href="#" id="menu_2" onclick="menuSwitch(this.id)" >Configuração</a></li>
-                    <li><a href="#" id="menu_3" onclick="menuSwitch(this.id)" >Identificação</a></li>
-                    <li><a href="#" id="menu_4" onclick="menuSwitch(this.id)" >Estado</a></li>
-                    <li><a href="#" id="menu_5" onclick="menuSwitch(this.id)" >Classificações</a></li>
-                    <li><a href="#" id="menu_6" onclick="menuSwitch(this.id)" >Mensagens</a></li>
+                    <li><a id="menu_1">Instruções</a></li>
+                    <li><a id="menu_2">Configuração</a></li>
+                    <li><a id="menu_3">Identificação</a></li>
+                    <li><a id="menu_4">Estado</a></li>
+                    <li><a id="menu_5">Classificações</a></li>
+                    <li><a id="menu_6">Mensagens</a></li>
                 </ul>
             </div>
         </div>
     </body>
     <footer>
+      
     </footer>
 </html>
