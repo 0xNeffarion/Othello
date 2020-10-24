@@ -185,7 +185,6 @@ body {
 #identificacao #normal form input[type=submit]{
     width: 150px;
     height: 35px;
-    font-weight: bold;
 }
 
 #authenticated {
@@ -205,6 +204,9 @@ input[type=submit]{
     min-width: 90px;
     min-height: 40px;
     cursor: pointer;
+    font-weight: bold;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 input[type=submit]:hover{
