@@ -1,15 +1,15 @@
 // ------------------ Constantes ------------------------------
 
-// MINIMAX CONFIG
-const MAX_DEPTH = 5;
-const MAX = WHITE;
-const MIN = BLACK;
-
 // PEÇAS
 const BLACK = -1;
 const WHITE = 1;
 const PLACEHOLDER = 2;
 const EMPTY = 0;
+
+// MINIMAX CONFIG
+const MAX_DEPTH = 5;
+const MAX = WHITE;
+const MIN = BLACK;
 
 // TAMANHO DO TABULEIRO
 const ROWS = 8;
