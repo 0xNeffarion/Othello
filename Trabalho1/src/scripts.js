@@ -1,3 +1,4 @@
+// Paineis do menu do lado direito e o div correspondente com o conteudo
 const MENU_PANELS = [
     ["menu_1", "instructions"],
     ["menu_2", "configuracao"],
@@ -7,11 +8,13 @@ const MENU_PANELS = [
     ["menu_6", "mensagens"],
 ];
 
+// Inicializar o menu e o jogo apos a pagina carregar
 window.onload = function() {
     addListeners();
     startGame();
 }
 
+// Muda o painel correspondente ao menu clicado
 const menuSwitch = function(id) {
     for (let i = 0; i < MENU_PANELS.length; i++) {
         var element = document.getElementById(MENU_PANELS[i][1]);
@@ -31,6 +34,7 @@ const menuSwitch = function(id) {
     }
 }
 
+// Cria click listeners para cada menu
 const addListeners = function(){
     for (let i = 0; i < MENU_PANELS.length; i++) {
         var menuId = MENU_PANELS[i][0];
