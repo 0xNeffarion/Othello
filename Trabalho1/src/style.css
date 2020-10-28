@@ -18,6 +18,12 @@ body {
     text-align: center;
 }
 
+#logotipo a:active, a:hover, a{
+    font-style: normal;
+    text-decoration: none;
+    color:white;
+}
+
 #logotipo h3 {
     font-family: 'Sansita Swashed', cursive, sans-serif;
     font-weight: bold;
@@ -54,14 +60,26 @@ body {
     text-align: center; 
 }
 
-#tabuleiro table tr{
-    border: 3px solid black;
-}
-
-#tabuleiro table td{
+#tabuleiro table tr td{
     border: 3px solid black;
     height: 40px;
     width: 40px;
+}
+
+#tabuleiro table tr{
+    border: 3px solid black;
+    height: 40px;
+    width: 40px;
+}
+
+#tabuleiro table tr th{
+    height: 25px;
+    width: 30px;
+    background-color: rgb(5, 78, 5);
+    border: 3px solid black;
+    color: rgba(255, 255, 255, 0.459);
+    font-size: 11px;
+    font-weight: bold;
 }
 
 #tabuleiro table td div{
@@ -108,7 +126,7 @@ body {
 }
 
 #lado-esq {
-    width: 33%;
+    width: 38.1%;
     height: 100%;
     float: left;
 }
@@ -120,7 +138,7 @@ body {
 }
 
 #editor {
-    width: 47%;
+    width: 42%;
     min-height: 53.8%;
     height: auto;
     float: left;
