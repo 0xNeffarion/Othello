@@ -11,15 +11,15 @@ const WHITE = 1;
 const PLACEHOLDER = 2;
 const EMPTY = 0;
 
-// COR DOS JOGADORES
-const PLAYER = WHITE;
-const CPU = BLACK;
-
 // TAMANHO DO TABULEIRO
 const ROWS = 8;
 const COLS = 8;
 
 // ------------------ Variaveis ------------------------------
+
+// COR DOS JOGADORES
+var PLAYER = WHITE;
+var CPU = BLACK;
 
 // JOGADOR DO TURNO DE AGORA
 var TURN = PLAYER;
