@@ -27,6 +27,33 @@ var TURN = PLAYER;
 // TABULEIRO
 var JOGO = new Array(ROWS);
 
+// ------------------ Objetos ------------------------------
+
+class Point {
+    constructor(x, y){
+        this.x = x;
+        this.y = y;
+    }
+
+    getX(){
+        return this.x;
+    }
+
+    getY(){
+        return this.y;
+    }
+
+    equals(p){
+        if(this.x === p.getX() && this.y === p.getY()){
+            return true;
+        }
+
+        return false;
+    }
+}
+
+const INV_POINT = new Point(-1, -1);
+
 // ------------------ Funções ------------------------------
 
 // Cria um tabuleiro vazio
@@ -46,6 +73,10 @@ const constructRows = function() {
     }
 
     return arr;
+}
+
+const oposto = function(color){
+    return color === BLACK ? WHITE : BLACK;
 }
 
 // Conta o numero de peças da cor que se deseja
@@ -104,6 +135,10 @@ const setColor = function(row, col, color){
         colElement[0].innerHTML = '';
         if(colElement[0] != null && color != EMPTY){
             var dot = buildDot(color);
+            if(color == PLACEHOLDER){
+                dot.addEventListener("click", function() { jogarPeca(row, col); });
+            }
+            
             colElement[0].appendChild(dot);
         }
     }
@@ -114,29 +149,130 @@ const isEmpty = function(row, col){
     return JOGO[row][col] === EMPTY || JOGO[row][col] === PLACEHOLDER;
 }
 
-// Cria placeholders para a jogada do utilizador do turno currente
-const setPlaceholders = function(){
+// Cria placeholders para a jogada do utilizador
+const setPlaceholders = function(color){
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
-            if(!isEmpty(r, c) && TURN == JOGO[r][c]){
-                if(r > 0 && isEmpty(r - 1, c)){
-                    setColor(r - 1, c, PLACEHOLDER);
-                }
+            if(JOGO[r][c] !== color){
+                continue;
+            }
 
-                if(c > 0 && isEmpty(r, c - 1)){
-                    setColor(r, c - 1, PLACEHOLDER);
-                }
+            var opponent = oposto(color);
+            var tr = checkTopRight(opponent, r - 1, c + 1, false);
+            var tl = checkTopLeft(opponent, r - 1, c - 1, false);
+            var top = checkTop(opponent, r - 1, c, false);
 
-                if(r < (ROWS - 1) && isEmpty(r + 1, c)){
-                    setColor(r + 1, c, PLACEHOLDER);
-                }
+            var br = checkBottomRight(opponent, r + 1, c + 1, false);
+            var bl = checkBottomLeft(opponent, r + 1, c - 1, false);
+            var bottom = checkBottom(opponent, r + 1, c, false);
 
-                if(c < (COLS - 1) && isEmpty(r, c + 1)){
-                    setColor(r, c + 1, PLACEHOLDER);
-                }
+            var right = checkRight(opponent, r, c + 1, false);
+            var left = checkLeft(opponent, r, c - 1, false);
+
+
+            if(!tr.equals(INV_POINT)){
+                setColor(tr.getX(), tr.getY(), PLACEHOLDER);
+            }
+
+            if(!tl.equals(INV_POINT)){
+                setColor(tl.getX(), tl.getY(), PLACEHOLDER);
+            }
+
+            if(!top.equals(INV_POINT)){
+                setColor(top.getX(), top.getY(), PLACEHOLDER);
+            }
+            
+            if(!br.equals(INV_POINT)){
+                setColor(br.getX(), br.getY(), PLACEHOLDER);
+            }
+
+            if(!bl.equals(INV_POINT)){
+                setColor(bl.getX(), bl.getY(), PLACEHOLDER);
+            }
+
+            if(!right.equals(INV_POINT)){
+                setColor(right.getX(), right.getY(), PLACEHOLDER);
+            }
+
+            if(!bottom.equals(INV_POINT)){
+                setColor(bottom.getX(), bottom.getY(), PLACEHOLDER);
+            }
+
+            if(!left.equals(INV_POINT)){
+                setColor(left.getX(), left.getY(), PLACEHOLDER);
+            }
+
+        }
+    }
+}
+
+// ---
+
+// Jogo acabou
+const isFull = function(){
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            if(isEmpty(r, c)){
+                return false;
             }
         }
     }
+
+    return true;
+}
+
+const jogarPeca = function(row, col){
+    fillPecas(row, col, TURN);
+    JOGO[row][col] = TURN;
+    TURN = oposto(TURN);
+    drawGame();
+}
+
+const fillPecas = function(r, c, color){
+    var opponent = oposto(color);
+    var tr = fillCheckTopRight(opponent, r - 1, c + 1);
+    var tl = fillCheckTopLeft(opponent, r - 1, c - 1);
+    var top = fillCheckTop(opponent, r - 1, c);
+
+    var br = fillCheckBottomRight(opponent, r + 1, c + 1);
+    var bl = fillCheckBottomLeft(opponent, r + 1, c - 1);
+    var bottom = fillCheckBottom(opponent, r + 1, c);
+
+    var right = fillCheckRight(opponent, r, c + 1);
+    var left = fillCheckLeft(opponent, r, c - 1);
+
+    if(!tr.equals(INV_POINT)){
+        fillBottomLeft(color, tr.getX() + 1, tr.getY() - 1);
+    }
+
+    if(!tl.equals(INV_POINT)){
+        fillBottomRight(color, tl.getX() + 1, tl.getY() + 1);
+    }
+
+    if(!top.equals(INV_POINT)){
+        fillBottom(color, top.getX() + 1, top.getY());
+    }
+    
+    if(!br.equals(INV_POINT)){
+        fillTopLeft(color, br.getX() - 1, br.getY() + 1);
+    }
+
+    if(!bl.equals(INV_POINT)){
+        fillTopRight(color, bl.getX() - 1, bl.getY() + 1);
+    }
+
+    if(!right.equals(INV_POINT)){
+        fillLeft(color, right.getX(), right.getY() - 1);
+    }
+
+    if(!bottom.equals(INV_POINT)){
+        fillTop(color, bottom.getX() - 1, bottom.getY());
+    }
+
+    if(!left.equals(INV_POINT)){
+        fillRight(color, left.getX(), left.getY() + 1);
+    }
+
 }
 
 // Desenha o jogo baseado na matriz JOGO
@@ -150,13 +286,11 @@ const drawGame = function(){
     for(let r = 0; r < ROWS; r++){
         for(let c = 0; c < COLS; c++){
             var color = JOGO[r][c];
-            if(color != EMPTY){
-                setColor(r, c, color);
-            }
+            setColor(r, c, color);
         }
     }
 
-    setPlaceholders();
+    setPlaceholders(TURN);
 }
 
 // Inicializa um jogo novo
