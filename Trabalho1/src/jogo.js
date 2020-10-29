@@ -75,7 +75,7 @@ const constructRows = function() {
     return arr;
 }
 
-const oposto = function(color){
+const enemy = function(color){
     return color === BLACK ? WHITE : BLACK;
 }
 
@@ -149,6 +149,16 @@ const isEmpty = function(row, col){
     return JOGO[row][col] === EMPTY || JOGO[row][col] === PLACEHOLDER;
 }
 
+const clearPlaceholders = function(){
+    for(let r = 0; r < ROWS; r++){
+        for(let c = 0; c < COLS; c++){
+            if(JOGO[r][c] == PLACEHOLDER){
+                JOGO[r][c] = 0;
+            }
+        }
+    }
+}
+
 // Cria placeholders para a jogada do utilizador
 const setPlaceholders = function(color){
     for (let r = 0; r < ROWS; r++) {
@@ -157,7 +167,7 @@ const setPlaceholders = function(color){
                 continue;
             }
 
-            var opponent = oposto(color);
+            var opponent = enemy(color);
             var tr = checkTopRight(opponent, r - 1, c + 1, false);
             var tl = checkTopLeft(opponent, r - 1, c - 1, false);
             var top = checkTop(opponent, r - 1, c, false);
@@ -171,35 +181,35 @@ const setPlaceholders = function(color){
 
 
             if(!tr.equals(INV_POINT)){
-                setColor(tr.getX(), tr.getY(), PLACEHOLDER);
+                JOGO[tr.getX()][tr.getY()] = PLACEHOLDER;
             }
 
             if(!tl.equals(INV_POINT)){
-                setColor(tl.getX(), tl.getY(), PLACEHOLDER);
+                JOGO[tl.getX()][tl.getY()] = PLACEHOLDER;
             }
 
             if(!top.equals(INV_POINT)){
-                setColor(top.getX(), top.getY(), PLACEHOLDER);
+                JOGO[top.getX()][top.getY()] = PLACEHOLDER;
             }
             
             if(!br.equals(INV_POINT)){
-                setColor(br.getX(), br.getY(), PLACEHOLDER);
+                JOGO[br.getX()][br.getY()] = PLACEHOLDER;
             }
 
             if(!bl.equals(INV_POINT)){
-                setColor(bl.getX(), bl.getY(), PLACEHOLDER);
+                JOGO[bl.getX()][bl.getY()] = PLACEHOLDER;
             }
 
             if(!right.equals(INV_POINT)){
-                setColor(right.getX(), right.getY(), PLACEHOLDER);
+                JOGO[right.getX()][right.getY()] = PLACEHOLDER;
             }
 
             if(!bottom.equals(INV_POINT)){
-                setColor(bottom.getX(), bottom.getY(), PLACEHOLDER);
+                JOGO[bottom.getX()][bottom.getY()] = PLACEHOLDER;
             }
 
             if(!left.equals(INV_POINT)){
-                setColor(left.getX(), left.getY(), PLACEHOLDER);
+                JOGO[left.getX()][left.getY()] = PLACEHOLDER;
             }
 
         }
@@ -224,12 +234,12 @@ const isFull = function(){
 const jogarPeca = function(row, col){
     fillPecas(row, col, TURN);
     JOGO[row][col] = TURN;
-    TURN = oposto(TURN);
+    TURN = enemy(TURN);
     drawGame();
 }
 
 const fillPecas = function(r, c, color){
-    var opponent = oposto(color);
+    var opponent = enemy(color);
     var tr = fillCheckTopRight(opponent, r - 1, c + 1);
     var tl = fillCheckTopLeft(opponent, r - 1, c - 1);
     var top = fillCheckTop(opponent, r - 1, c);
@@ -254,7 +264,7 @@ const fillPecas = function(r, c, color){
     }
     
     if(!br.equals(INV_POINT)){
-        fillTopLeft(color, br.getX() - 1, br.getY() + 1);
+        fillTopLeft(color, br.getX() - 1, br.getY() - 1);
     }
 
     if(!bl.equals(INV_POINT)){
@@ -283,6 +293,9 @@ const drawGame = function(){
         return;
     }
 
+    clearPlaceholders();
+    setPlaceholders(TURN);
+
     for(let r = 0; r < ROWS; r++){
         for(let c = 0; c < COLS; c++){
             var color = JOGO[r][c];
@@ -290,7 +303,7 @@ const drawGame = function(){
         }
     }
 
-    setPlaceholders(TURN);
+    
 }
 
 // Inicializa um jogo novo
