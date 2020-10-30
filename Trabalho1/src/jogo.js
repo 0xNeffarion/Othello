@@ -301,9 +301,7 @@ const drawGame = function(){
             var color = JOGO[r][c];
             setColor(r, c, color);
         }
-    }
-
-    
+    }    
 }
 
 // Inicializa um jogo novo
