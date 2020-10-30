@@ -6,11 +6,6 @@ const WHITE = 1;
 const PLACEHOLDER = 2;
 const EMPTY = 0;
 
-// MINIMAX CONFIG
-const MAX_DEPTH = 5;
-const MAX = WHITE;
-const MIN = BLACK;
-
 // TAMANHO DO TABULEIRO
 const ROWS = 8;
 const COLS = 8;
@@ -149,21 +144,26 @@ const isEmpty = function(row, col){
     return JOGO[row][col] === EMPTY || JOGO[row][col] === PLACEHOLDER;
 }
 
-const clearPlaceholders = function(){
+const updateEstado = function(){
+    var jogador = (TURN == WHITE) ? "Branco" : "Preto";
+    document.getElementById("jogador_turno").innerText = jogador;
+}
+
+const clearPlaceholders = function(TABULEIRO){
     for(let r = 0; r < ROWS; r++){
         for(let c = 0; c < COLS; c++){
-            if(JOGO[r][c] == PLACEHOLDER){
-                JOGO[r][c] = 0;
+            if(TABULEIRO[r][c] == PLACEHOLDER){
+                TABULEIRO[r][c] = 0;
             }
         }
     }
 }
 
 // Cria placeholders para a jogada do utilizador
-const setPlaceholders = function(color){
+const setPlaceholders = function(TABULEIRO, color){
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
-            if(JOGO[r][c] !== color){
+            if(TABULEIRO[r][c] !== color){
                 continue;
             }
 
@@ -181,35 +181,35 @@ const setPlaceholders = function(color){
 
 
             if(!tr.equals(INV_POINT)){
-                JOGO[tr.getX()][tr.getY()] = PLACEHOLDER;
+                TABULEIRO[tr.getX()][tr.getY()] = PLACEHOLDER;
             }
 
             if(!tl.equals(INV_POINT)){
-                JOGO[tl.getX()][tl.getY()] = PLACEHOLDER;
+                TABULEIRO[tl.getX()][tl.getY()] = PLACEHOLDER;
             }
 
             if(!top.equals(INV_POINT)){
-                JOGO[top.getX()][top.getY()] = PLACEHOLDER;
+                TABULEIRO[top.getX()][top.getY()] = PLACEHOLDER;
             }
             
             if(!br.equals(INV_POINT)){
-                JOGO[br.getX()][br.getY()] = PLACEHOLDER;
+                TABULEIRO[br.getX()][br.getY()] = PLACEHOLDER;
             }
 
             if(!bl.equals(INV_POINT)){
-                JOGO[bl.getX()][bl.getY()] = PLACEHOLDER;
+                TABULEIRO[bl.getX()][bl.getY()] = PLACEHOLDER;
             }
 
             if(!right.equals(INV_POINT)){
-                JOGO[right.getX()][right.getY()] = PLACEHOLDER;
+                TABULEIRO[right.getX()][right.getY()] = PLACEHOLDER;
             }
 
             if(!bottom.equals(INV_POINT)){
-                JOGO[bottom.getX()][bottom.getY()] = PLACEHOLDER;
+                TABULEIRO[bottom.getX()][bottom.getY()] = PLACEHOLDER;
             }
 
             if(!left.equals(INV_POINT)){
-                JOGO[left.getX()][left.getY()] = PLACEHOLDER;
+                TABULEIRO[left.getX()][left.getY()] = PLACEHOLDER;
             }
 
         }
@@ -219,10 +219,10 @@ const setPlaceholders = function(color){
 // ---
 
 // Jogo acabou
-const isFull = function(){
+const isFull = function(TABULEIRO){
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
-            if(isEmpty(r, c)){
+            if(TABULEIRO[r][c] == EMPTY || TABULEIRO[r][c] == PLACEHOLDER){
                 return false;
             }
         }
@@ -232,55 +232,60 @@ const isFull = function(){
 }
 
 const jogarPeca = function(row, col){
-    fillPecas(row, col, TURN);
-    JOGO[row][col] = TURN;
+    fillPecas(JOGO, row, col, TURN);
+
     TURN = enemy(TURN);
+    JOGO = cpuPlay(JOGO, TURN);
+    TURN = enemy(TURN);
+
     drawGame();
+    updateEstado();
 }
 
-const fillPecas = function(r, c, color){
+const fillPecas = function(TABULEIRO, r, c, color){
+    TABULEIRO[r][c] = color;
     var opponent = enemy(color);
-    var tr = fillCheckTopRight(opponent, r - 1, c + 1);
-    var tl = fillCheckTopLeft(opponent, r - 1, c - 1);
-    var top = fillCheckTop(opponent, r - 1, c);
+    var tr = fillCheckTopRight(TABULEIRO, opponent, r - 1, c + 1);
+    var tl = fillCheckTopLeft(TABULEIRO, opponent, r - 1, c - 1);
+    var top = fillCheckTop(TABULEIRO, opponent, r - 1, c);
 
-    var br = fillCheckBottomRight(opponent, r + 1, c + 1);
-    var bl = fillCheckBottomLeft(opponent, r + 1, c - 1);
-    var bottom = fillCheckBottom(opponent, r + 1, c);
+    var br = fillCheckBottomRight(TABULEIRO, opponent, r + 1, c + 1);
+    var bl = fillCheckBottomLeft(TABULEIRO, opponent, r + 1, c - 1);
+    var bottom = fillCheckBottom(TABULEIRO, opponent, r + 1, c);
 
-    var right = fillCheckRight(opponent, r, c + 1);
-    var left = fillCheckLeft(opponent, r, c - 1);
+    var right = fillCheckRight(TABULEIRO, opponent, r, c + 1);
+    var left = fillCheckLeft(TABULEIRO, opponent, r, c - 1);
 
     if(!tr.equals(INV_POINT)){
-        fillBottomLeft(color, tr.getX() + 1, tr.getY() - 1);
+        fillBottomLeft(TABULEIRO, color, tr.getX() + 1, tr.getY() - 1);
     }
 
     if(!tl.equals(INV_POINT)){
-        fillBottomRight(color, tl.getX() + 1, tl.getY() + 1);
+        fillBottomRight(TABULEIRO, color, tl.getX() + 1, tl.getY() + 1);
     }
 
     if(!top.equals(INV_POINT)){
-        fillBottom(color, top.getX() + 1, top.getY());
+        fillBottom(TABULEIRO, color, top.getX() + 1, top.getY());
     }
     
     if(!br.equals(INV_POINT)){
-        fillTopLeft(color, br.getX() - 1, br.getY() - 1);
+        fillTopLeft(TABULEIRO, color, br.getX() - 1, br.getY() - 1);
     }
 
     if(!bl.equals(INV_POINT)){
-        fillTopRight(color, bl.getX() - 1, bl.getY() + 1);
+        fillTopRight(TABULEIRO, color, bl.getX() - 1, bl.getY() + 1);
     }
 
     if(!right.equals(INV_POINT)){
-        fillLeft(color, right.getX(), right.getY() - 1);
+        fillLeft(TABULEIRO, color, right.getX(), right.getY() - 1);
     }
 
     if(!bottom.equals(INV_POINT)){
-        fillTop(color, bottom.getX() - 1, bottom.getY());
+        fillTop(TABULEIRO, color, bottom.getX() - 1, bottom.getY());
     }
 
     if(!left.equals(INV_POINT)){
-        fillRight(color, left.getX(), left.getY() + 1);
+        fillRight(TABULEIRO, color, left.getX(), left.getY() + 1);
     }
 
 }
@@ -293,15 +298,15 @@ const drawGame = function(){
         return;
     }
 
-    clearPlaceholders();
-    setPlaceholders(TURN);
+    clearPlaceholders(JOGO);
+    setPlaceholders(JOGO, TURN);
 
     for(let r = 0; r < ROWS; r++){
         for(let c = 0; c < COLS; c++){
             var color = JOGO[r][c];
             setColor(r, c, color);
         }
-    }    
+    }
 }
 
 // Inicializa um jogo novo

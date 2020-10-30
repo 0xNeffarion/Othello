@@ -160,23 +160,7 @@ table tr:nth-child(2n) td:nth-child(2n-1) {
     border: 3px solid white;
 }
 
-#identificacao{
-    display: none;
-}
-
-#mensagens{
-  display: none;
-}
-
-#instructions{
-  display: block;
-}
-
-#configuracao{
-  display: none;
-}
-
-#classicacoes{
+#mensagens, #configuracao, #identificacao, #classicacoes, #estado{
   display: none;
 }
 

@@ -140,145 +140,145 @@ const checkLeft = function(opponent, row, col, found){
 // ------------------------------------------------------------
 // Fill spots
 
-const fillTopRight = function(mycolor, row, col){
+const fillTopRight = function(TABULEIRO, mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        JOGO[row][col] = mycolor;
-        return fillTopRight(mycolor, row - 1, col + 1);
+        TABULEIRO[row][col] = mycolor;
+        return fillTopRight(TABULEIRO,mycolor, row - 1, col + 1);
     }
 
     return INV_POINT;
 }
 
-const fillTopLeft = function(mycolor, row, col){
+const fillTopLeft = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        JOGO[row][col] = mycolor;
-        return fillTopLeft(mycolor, row - 1, col - 1);
+        TABULEIRO[row][col] = mycolor;
+        return fillTopLeft(TABULEIRO,mycolor, row - 1, col - 1);
     }
 
     return INV_POINT;
 }
 
-const fillTop = function(mycolor, row, col){
+const fillTop = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        JOGO[row][col] = mycolor;
-        return fillTop(mycolor, row - 1, col);
+        TABULEIRO[row][col] = mycolor;
+        return fillTop(TABULEIRO,mycolor, row - 1, col);
     }
 
     return INV_POINT;
 }
 
-const fillBottom = function(mycolor, row, col){
+const fillBottom = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        JOGO[row][col] = mycolor;
-        return fillBottom(mycolor, row + 1, col);
+        TABULEIRO[row][col] = mycolor;
+        return fillBottom(TABULEIRO,mycolor, row + 1, col);
     }
 
     return INV_POINT;
 }
 
-const fillBottomRight = function(mycolor, row, col){
+const fillBottomRight = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        JOGO[row][col] = mycolor;
-        return fillBottomRight(mycolor, row + 1, col + 1);
+        TABULEIRO[row][col] = mycolor;
+        return fillBottomRight(TABULEIRO,mycolor, row + 1, col + 1);
     }
 
     return INV_POINT;
 }
 
-const fillBottomLeft = function(mycolor, row, col){
+const fillBottomLeft = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        JOGO[row][col] = mycolor;
-        return fillBottomLeft(mycolor, row + 1, col - 1);
+        TABULEIRO[row][col] = mycolor;
+        return fillBottomLeft(TABULEIRO,mycolor, row + 1, col - 1);
     }
 
     return INV_POINT;
 }
 
-const fillRight = function(mycolor, row, col){
+const fillRight = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        JOGO[row][col] = mycolor;
-        return fillRight(mycolor, row, col + 1);
+        TABULEIRO[row][col] = mycolor;
+        return fillRight(TABULEIRO,mycolor, row, col + 1);
     }
 
     return INV_POINT;
 }
 
-const fillLeft = function(mycolor, row, col){
+const fillLeft = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        JOGO[row][col] = mycolor;
-        return fillLeft(mycolor, row, col - 1);
+        TABULEIRO[row][col] = mycolor;
+        return fillLeft(TABULEIRO,mycolor, row, col - 1);
     }
 
     return INV_POINT;
@@ -286,137 +286,137 @@ const fillLeft = function(mycolor, row, col){
 
 // --- Fill check
 
-const fillCheckTopRight = function(opponent, row, col){
+const fillCheckTopRight = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        return fillCheckTopRight(opponent, row - 1, col + 1);
+        return fillCheckTopRight(TABULEIRO,opponent, row - 1, col + 1);
     }
 
     return INV_POINT;
 }
 
-const fillCheckTopLeft = function(opponent, row, col){
+const fillCheckTopLeft = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        return fillCheckTopLeft(opponent, row - 1, col - 1);
+        return fillCheckTopLeft(TABULEIRO,opponent, row - 1, col - 1);
     }
 
     return INV_POINT;
 }
 
-const fillCheckTop = function(opponent, row, col){
+const fillCheckTop = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        return fillCheckTop(opponent, row - 1, col);
+        return fillCheckTop(TABULEIRO,opponent, row - 1, col);
     }
 
     return INV_POINT;
 }
 
-const fillCheckBottom = function(opponent, row, col){
+const fillCheckBottom = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        return fillCheckBottom(opponent, row + 1, col);
+        return fillCheckBottom(TABULEIRO,opponent, row + 1, col);
     }
 
     return INV_POINT;
 }
 
-const fillCheckBottomRight = function(opponent, row, col){
+const fillCheckBottomRight = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        return fillCheckBottomRight(opponent, row + 1, col + 1);
+        return fillCheckBottomRight(TABULEIRO,opponent, row + 1, col + 1);
     }
 
     return INV_POINT;
 }
 
-const fillCheckBottomLeft = function(opponent, row, col){
+const fillCheckBottomLeft = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        return fillCheckBottomLeft(opponent, row + 1, col - 1);
+        return fillCheckBottomLeft(TABULEIRO,opponent, row + 1, col - 1);
     }
 
     return INV_POINT;
 }
 
-const fillCheckRight = function(opponent, row, col){
+const fillCheckRight = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        return fillCheckRight(opponent, row, col + 1);
+        return fillCheckRight(TABULEIRO,opponent, row, col + 1);
     }
 
     return INV_POINT;
 }
 
-const fillCheckLeft = function(opponent, row, col){
+const fillCheckLeft = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
     
-    var cor = JOGO[row][col];
+    var cor = TABULEIRO[row][col];
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
         return new Point(row, col);
     }else if(cor == opponent){
-        return fillCheckLeft(opponent, row, col - 1);
+        return fillCheckLeft(TABULEIRO, opponent, row, col - 1);
     }
 
     return INV_POINT;
