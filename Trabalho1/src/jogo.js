@@ -233,24 +233,28 @@ const isFull = function(TABULEIRO){
     return true;
 }
 
-const jogarPeca =  function(row, col){
+const jogarPeca = async function(row, col){
+    // JOGADOR
     fillPecas(JOGO, row, col, TURN);
-    
-    TURN = enemy(TURN);
     clearPlaceholders(JOGO);
+    TURN = enemy(TURN);
     setPlaceholders(JOGO, TURN);
-    drawGame();
 
-    //await sleep(3000);
+
+    // CPU
     var coord = cpuPlay(JOGO, TURN);
     fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
-    TURN = enemy(TURN);
-
     clearPlaceholders(JOGO);
+    TURN = enemy(TURN);
     setPlaceholders(JOGO, TURN);
 
     drawGame();
     updateEstado();
+}
+
+const cpuJogar = function(){
+    var coord = cpuPlay(JOGO, TURN);
+    jogarPeca(coord.getX(), coord.getY(), true);
 }
 
 const sleep = function(ms) {
