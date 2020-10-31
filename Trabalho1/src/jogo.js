@@ -100,6 +100,8 @@ const fillStartingPositions = function(){
     JOGO[3][4] = p2;
     JOGO[4][3] = p2;
     JOGO[4][4] = p1;
+
+    setPlaceholders(JOGO, TURN);
 }
 
 // Cria um element de uma peça com a cor desejada
@@ -231,15 +233,28 @@ const isFull = function(TABULEIRO){
     return true;
 }
 
-const jogarPeca = function(row, col){
+const jogarPeca =  function(row, col){
     fillPecas(JOGO, row, col, TURN);
+    
+    TURN = enemy(TURN);
+    clearPlaceholders(JOGO);
+    setPlaceholders(JOGO, TURN);
+    drawGame();
 
+    //await sleep(3000);
+    var coord = cpuPlay(JOGO, TURN);
+    fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
     TURN = enemy(TURN);
-    JOGO = cpuPlay(JOGO, TURN);
-    TURN = enemy(TURN);
+
+    clearPlaceholders(JOGO);
+    setPlaceholders(JOGO, TURN);
 
     drawGame();
     updateEstado();
+}
+
+const sleep = function(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 const fillPecas = function(TABULEIRO, r, c, color){
@@ -291,15 +306,11 @@ const fillPecas = function(TABULEIRO, r, c, color){
 }
 
 // Desenha o jogo baseado na matriz JOGO
-// Tem de ser chamada apos cada jogada
 const drawGame = function(){
     var table = document.getElementById("tabela-jogo");
     if(table == null){
         return;
     }
-
-    clearPlaceholders(JOGO);
-    setPlaceholders(JOGO, TURN);
 
     for(let r = 0; r < ROWS; r++){
         for(let c = 0; c < COLS; c++){

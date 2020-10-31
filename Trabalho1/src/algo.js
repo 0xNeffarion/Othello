@@ -292,6 +292,10 @@ const fillCheckTopRight = function(TABULEIRO, opponent, row, col){
     }
     
     var cor = TABULEIRO[row][col];
+    if(cor == PLACEHOLDER){
+        return INV_POINT;
+    }
+
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
@@ -309,6 +313,10 @@ const fillCheckTopLeft = function(TABULEIRO, opponent, row, col){
     }
     
     var cor = TABULEIRO[row][col];
+    if(cor == PLACEHOLDER){
+        return INV_POINT;
+    }
+
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
@@ -326,6 +334,10 @@ const fillCheckTop = function(TABULEIRO, opponent, row, col){
     }
     
     var cor = TABULEIRO[row][col];
+    if(cor == PLACEHOLDER){
+        return INV_POINT;
+    }
+
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
@@ -343,6 +355,10 @@ const fillCheckBottom = function(TABULEIRO, opponent, row, col){
     }
     
     var cor = TABULEIRO[row][col];
+    if(cor == PLACEHOLDER){
+        return INV_POINT;
+    }
+
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
@@ -360,6 +376,10 @@ const fillCheckBottomRight = function(TABULEIRO, opponent, row, col){
     }
     
     var cor = TABULEIRO[row][col];
+    if(cor == PLACEHOLDER){
+        return INV_POINT;
+    }
+
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
@@ -377,6 +397,10 @@ const fillCheckBottomLeft = function(TABULEIRO, opponent, row, col){
     }
     
     var cor = TABULEIRO[row][col];
+    if(cor == PLACEHOLDER){
+        return INV_POINT;
+    }
+
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
@@ -394,6 +418,10 @@ const fillCheckRight = function(TABULEIRO, opponent, row, col){
     }
     
     var cor = TABULEIRO[row][col];
+    if(cor == PLACEHOLDER){
+        return INV_POINT;
+    }
+
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
@@ -411,6 +439,10 @@ const fillCheckLeft = function(TABULEIRO, opponent, row, col){
     }
     
     var cor = TABULEIRO[row][col];
+    if(cor == PLACEHOLDER){
+        return INV_POINT;
+    }
+
     var mycolor = enemy(opponent);
 
     if(cor == mycolor){
