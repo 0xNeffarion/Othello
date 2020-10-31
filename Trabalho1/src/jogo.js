@@ -218,6 +218,22 @@ const setPlaceholders = function(TABULEIRO, color){
     }
 }
 
+const copyTable = function(table){
+    var NT = new Array(ROWS);
+
+    for(let i = 0; i < COLS; i++){
+        NT[i] = constructRows();
+    }
+
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            NT[r][c] = table[r][c];
+        }
+    }
+
+    return NT;
+}
+
 // ---
 
 // Jogo acabou
@@ -239,7 +255,7 @@ const jogarPeca = async function(row, col){
     clearPlaceholders(JOGO);
     TURN = enemy(TURN);
     setPlaceholders(JOGO, TURN);
-
+    drawGame();
 
     // CPU
     var coord = cpuPlay(JOGO, TURN);
