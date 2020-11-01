@@ -160,7 +160,8 @@ table tr:nth-child(2n) td:nth-child(2n-1) {
     border: 3px solid white;
 }
 
-#mensagens, #configuracao, #identificacao, #classicacoes, #estado{
+#mensagens, #configuracao, #identificacao, #classicacoes, #estado, #msg-terminou, #msg-impossivel,
+    #msg-jogapreto, #msg-desist{
   display: none;
 }
 

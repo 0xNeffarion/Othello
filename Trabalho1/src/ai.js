@@ -62,17 +62,33 @@ class Move {
 
 }
 
+class MR {
+    constructor(p, h){
+        this.p = p;
+        this.h = h;
+    }
+
+    getPoint(){
+        return this.p;
+    }
+
+
+    getHeur(){
+        return this.h;
+    }
+}
+
 
 const cpuPlay = function(TABULEIRO, cpuColor) {
     var JOGO_TMP = copyTable(TABULEIRO);
     var moves = new Array();
-    var mm = minimax(JOGO_TMP, MAX_DEPTH, cpuColor, moves);
-    console.log(mm);
+    var mm = minimax(JOGO_TMP, MAX_DEPTH, cpuColor, moves, 0, null);
+    return mm.getPoint();
 }
 
-const minimax = function(tabuleiro, depth, player, moves){
+const minimax = function(tabuleiro, depth, player, moves, id, point){
     if(depth <= 0){
-        return heuristic(tabuleiro, player);
+        return new MR(point, heuristic(tabuleiro, player));
     }
 
     var value;
@@ -80,8 +96,8 @@ const minimax = function(tabuleiro, depth, player, moves){
         var children = getChildren(tabuleiro, player);
         for(var i = 0; i < children.length; i++){
             var child = children[i];
-            moves.push(new Move(createUUID(), child.getCoordenada(), MAX, child.getPontos()));
-            value = Math.max(child.getPontos(), minimax(child.getTabuleiro(), depth - 1, MIN, moves));
+            moves.push(new Move(id, child.getCoordenada(), MAX, child.getPontos()));
+            value = max(new MR(point, child.getPontos()), minimax(child.getTabuleiro(), depth - 1, MIN, moves, id+1, child.getCoordenada()));
         }
 
         return value;
@@ -89,12 +105,28 @@ const minimax = function(tabuleiro, depth, player, moves){
         var children = getChildren(tabuleiro, player);
         for(var i = 0; i < children.length; i++){
             var child = children[i];
-            value = Math.min(child.getPontos(), minimax(child.getTabuleiro(), depth - 1, MAX, moves));
-            moves.push(new Move(createUUID(), child.getCoordenada(), MIN, child.getPontos()));
+            moves.push(new Move(id, child.getCoordenada(), MIN, child.getPontos()));
+            value = min(new MR(point, child.getPontos()), minimax(child.getTabuleiro(), depth - 1, MAX, moves, id+1, child.getCoordenada()));
         }
 
         return value;
     }
+}
+
+const max = function(v1, v2){
+    if(v1.getHeur() > v2.getHeur()){
+        return v1;
+    }
+
+    return v2;
+}
+
+const min = function(v1, v2){
+    if(v1.getHeur() < v2.getHeur()){
+        return v1;
+    }
+
+    return v2;
 }
 
 const getChildren = function(TABULEIRO, color){

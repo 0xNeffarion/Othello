@@ -149,6 +149,11 @@ const isEmpty = function(row, col){
 const updateEstado = function(){
     var jogador = (TURN == WHITE) ? "Branco" : "Preto";
     document.getElementById("jogador_turno").innerText = jogador;
+    updatePontos();
+}
+
+const updateMensages = function() {
+    
 }
 
 const clearPlaceholders = function(TABULEIRO){
@@ -277,6 +282,16 @@ const sleep = function(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+const updatePontos = function(){
+    var branco = countPoints(JOGO, WHITE);
+    var preto = countPoints(JOGO, BLACK);
+    var empty = countPoints(JOGO, EMPTY) + countPoints(JOGO, PLACEHOLDER);
+
+    document.getElementById("pontos_oponente").innerText = CPU == WHITE ? branco : preto;
+    document.getElementById("pontos_jogador").innerText = PLAYER == WHITE ? branco : preto;
+    document.getElementById("pontos_vazio").innerText = empty;
+}
+
 const fillPecas = function(TABULEIRO, r, c, color){
     TABULEIRO[r][c] = color;
     var opponent = enemy(color);
@@ -345,4 +360,5 @@ const startGame = function() {
     emptyTable();
     fillStartingPositions();
     drawGame();
+    updateEstado();
 }
