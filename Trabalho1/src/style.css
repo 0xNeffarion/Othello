@@ -57,7 +57,7 @@ body {
 }
 
 #tabuleiro table tbody {
-    text-align: center; 
+    text-align: center;
 }
 
 #tabuleiro table tr td{
@@ -230,6 +230,20 @@ table tr:nth-child(2n) td:nth-child(2n-1) {
     width: 150px;
     height: 35px;
 }
+/**/
+
+div.cores{
+ width:160px;
+ height:28px;
+ align-items: center;
+ border: 15px solid;
+ border-color: #C0C0C0 #E0FFFF #708090 #5F9EA0; /* T, R, B, L*/
+ margin-left: auto;
+ margin-right: auto;
+ font-weight: bold;
+ }
+
+/**/
 
 #authenticated {
     display:none;
