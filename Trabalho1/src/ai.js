@@ -1,7 +1,9 @@
 // MINIMAX CONFIG
-const MAX_DEPTH = 2;
+const MAX_DEPTH = 3;
 const MAX = BLACK;
 const MIN = WHITE;
+
+const CPU_SLEEP_MS = 1000;
 
 class Result {
     constructor(tabuleiro, coord, pontos){
@@ -22,111 +24,57 @@ class Result {
         return this.pontos;
     }
 
-    setTabuleiro(tabuleiro){
-        this.tabuleiro = tabuleiro;
-    }
-
-    setCoordenada(coord){
-        this.coordenada = coord;
-    }
-
-    setPontos(pontos){
-        this.pontos = pontos;
-    }
-
 }
-
-class Move {
-    constructor(id, point, player, score){
-        this.id = id;
-        this.point = point;
-        this.score = score;
-        this.player = player;
-    }
-
-    getScore(){
-        return this.score;
-    }
-
-    getPlayer(){
-        return this.player;
-    }
-
-    getID(){
-        return this.id;
-    }
-
-    getPoint(){
-        return this.point;
-    }
-
-}
-
-class MR {
-    constructor(p, h){
-        this.p = p;
-        this.h = h;
-    }
-
-    getPoint(){
-        return this.p;
-    }
-
-
-    getHeur(){
-        return this.h;
-    }
-}
-
 
 const cpuPlay = function(TABULEIRO, cpuColor) {
-    var JOGO_TMP = copyTable(TABULEIRO);
-    var moves = new Array();
-    var mm = minimax(JOGO_TMP, MAX_DEPTH, cpuColor, moves, 0, null);
-    return mm.getPoint();
+    return findBestMove(TABULEIRO, cpuColor);
 }
 
-const minimax = function(tabuleiro, depth, player, moves, id, point){
+const findBestMove = function(TABULEIRO, color){
+    var best = -10000;
+    var bestPlay = null;
+    var children = getChildren(TABULEIRO, color);
+    children = shuffle(children);
+
+    for(var i = 0; i < children.length; i++){
+        var c = children[i];
+        var copy = copyTable(TABULEIRO);
+        var score = MINIMAX(copy, MAX_DEPTH, color);
+
+        if(bestPlay == null){
+            best = score;
+            bestPlay = c.getCoordenada();
+        }
+
+        if(Math.abs(score) > best){
+            best = score;
+            bestPlay = c.getCoordenada();
+        }
+    }
+
+    return bestPlay;
+}
+
+const MINIMAX = function(TABULEIRO, depth, player){
     if(depth <= 0){
-        return new MR(point, heuristic(tabuleiro, player));
+        return heuristic(TABULEIRO, player);
     }
 
     var value;
+    var children = getChildren(TABULEIRO, player);
     if(player === MAX){
-        var children = getChildren(tabuleiro, player);
         for(var i = 0; i < children.length; i++){
             var child = children[i];
-            moves.push(new Move(id, child.getCoordenada(), MAX, child.getPontos()));
-            value = max(new MR(point, child.getPontos()), minimax(child.getTabuleiro(), depth - 1, MIN, moves, id+1, child.getCoordenada()));
+            value = Math.max(child.getPontos(), MINIMAX(child.getTabuleiro(), depth - 1, MIN));
         }
-
-        return value;
     }else if(player === MIN){
-        var children = getChildren(tabuleiro, player);
         for(var i = 0; i < children.length; i++){
             var child = children[i];
-            moves.push(new Move(id, child.getCoordenada(), MIN, child.getPontos()));
-            value = min(new MR(point, child.getPontos()), minimax(child.getTabuleiro(), depth - 1, MAX, moves, id+1, child.getCoordenada()));
+            value = Math.min(child.getPontos(), MINIMAX(child.getTabuleiro(), depth - 1, MAX));
         }
-
-        return value;
-    }
-}
-
-const max = function(v1, v2){
-    if(v1.getHeur() > v2.getHeur()){
-        return v1;
     }
 
-    return v2;
-}
-
-const min = function(v1, v2){
-    if(v1.getHeur() < v2.getHeur()){
-        return v1;
-    }
-
-    return v2;
+    return value;
 }
 
 const getChildren = function(TABULEIRO, color){
@@ -148,12 +96,14 @@ const getChildren = function(TABULEIRO, color){
 }
 
 const abstractPlace = function(TABULEIRO, color, row, col) {
-    var point = new Point(row,col);
-    fillPecas(TABULEIRO, row, col, color);
-    var value = heuristic(TABULEIRO, color);
-    clearPlaceholders(TABULEIRO);
     setPlaceholders(TABULEIRO, color);
-    return new Result(TABULEIRO,point,value);
+    var point = new Point(row,col);
+
+    if(canPlay(TABULEIRO)){
+        fillPecas(TABULEIRO, row, col, color);
+    }
+
+    return new Result(TABULEIRO,point, heuristic(TABULEIRO, color));
 }
 
 const countPoints = function(TABULEIRO, color) {
@@ -175,9 +125,13 @@ const heuristic = function(TABULEIRO, color) {
     return myScore - opponentScore;
 }
 
-function createUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-       return v.toString(16);
-    });
- }
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}

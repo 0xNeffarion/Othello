@@ -75,11 +75,11 @@ const enemy = function(color){
 }
 
 // Conta o numero de peças da cor que se deseja
-const countPieces = function(color){
+const countPieces = function(TABULEIRO, color){
     var count = 0;
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
-            if(JOGO[r][c] === color){
+            if(TABULEIRO[r][c] === color){
                 count++;
             }
         }
@@ -152,10 +152,6 @@ const updateEstado = function(){
     updatePontos();
 }
 
-const updateMensages = function() {
-    
-}
-
 const clearPlaceholders = function(TABULEIRO){
     for(let r = 0; r < ROWS; r++){
         for(let c = 0; c < COLS; c++){
@@ -166,8 +162,14 @@ const clearPlaceholders = function(TABULEIRO){
     }
 }
 
+const canPlay = function(TABULEIRO){
+    return countPieces(TABULEIRO, PLACEHOLDER) > 0;
+}
+
 // Cria placeholders para a jogada do utilizador
 const setPlaceholders = function(TABULEIRO, color){
+    clearPlaceholders(TABULEIRO);
+
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             if(TABULEIRO[r][c] !== color){
@@ -255,28 +257,39 @@ const isFull = function(TABULEIRO){
 }
 
 const jogarPeca = async function(row, col){
+
     // JOGADOR
     fillPecas(JOGO, row, col, TURN);
-    clearPlaceholders(JOGO);
     TURN = enemy(TURN);
-    setPlaceholders(JOGO, TURN);
     drawGame();
-
-    // CPU
-    var coord = cpuPlay(JOGO, TURN);
-    fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
-    clearPlaceholders(JOGO);
-    TURN = enemy(TURN);
     setPlaceholders(JOGO, TURN);
 
+    updateEstado();
+    if(canPlay(JOGO)){
+        await sleep(CPU_SLEEP_MS);
+        var coord = cpuPlay(JOGO, TURN);
+        fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
+        console.log(coord);
+    }
+
+    TURN = enemy(TURN);
+    setPlaceholders(JOGO, TURN);
     drawGame();
     updateEstado();
+
+    if(!canPlay(JOGO)){
+        TURN = enemy(TURN);
+        await sleep(CPU_SLEEP_MS);
+        var coord = cpuPlay(JOGO, TURN);
+        fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
+        console.log(coord);
+        TURN = enemy(TURN);
+        setPlaceholders(JOGO, TURN);
+        drawGame();
+        updateEstado();
+    }
 }
 
-const cpuJogar = function(){
-    var coord = cpuPlay(JOGO, TURN);
-    jogarPeca(coord.getX(), coord.getY(), true);
-}
 
 const sleep = function(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
