@@ -44,3 +44,30 @@ const addListeners = function(){
         }
     }
 }
+
+//http://twserver.alunos.dcc.fc.up.pt:8008/
+
+const btnLogin = document.getElementById("btnLogin");
+
+btnLogin.addEventListener("click", event =>{})
+btnLogin.addEventListener("click", event =>{
+    event.PreventDefault();
+})
+
+const username = document.getElementById("username");
+const valorUser = username.value;
+
+const url = `http://twserver.alunos.dcc.fc.up.pt:8008/`;
+
+fetch(url)
+  .then(response =>{
+  return response.json();
+  })
+  .then(data =>{
+    atribuirPass(data);
+  })
+
+function atribuirPass(data){
+  const password = document.getElementById("password");
+  const valorPass = password.value;
+  }
