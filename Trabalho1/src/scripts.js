@@ -11,6 +11,7 @@ const MENU_PANELS = [
 // Inicializar o menu e o jogo apos a pagina carregar
 window.onload = function() {
     addListeners();
+    loadClient();
     startGame();
 }
 
@@ -45,29 +46,91 @@ const addListeners = function(){
     }
 }
 
-//http://twserver.alunos.dcc.fc.up.pt:8008/
+class Ranking {
+    constructor(nick, victories, games){
+        this.nick = nick;
+        this.victories = victories;
+        this.games = games;
+    }
 
-const btnLogin = document.getElementById("btnLogin");
+    getNick(){
+        return this.nick;
+    }
 
-btnLogin.addEventListener("click", event =>{})
-btnLogin.addEventListener("click", event =>{
-    event.PreventDefault();
-})
+    getVictories(){
+        return this.victories;
+    }
 
-const username = document.getElementById("username");
-const valorUser = username.value;
+    getGames(){
+        return this.games;
+    }
 
-const url = `http://twserver.alunos.dcc.fc.up.pt:8008/`;
+    static from(json){
+        return Object.assign(new Ranking(), json);
+    }
 
-fetch(url)
-  .then(response =>{
-  return response.json();
-  })
-  .then(data =>{
-    atribuirPass(data);
-  })
+}
 
-function atribuirPass(data){
-  const password = document.getElementById("password");
-  const valorPass = password.value;
-  }
+const SERVER_URL = "http://twserver.alunos.dcc.fc.up.pt:8008/";
+const loadClient = function(){
+    /**btnLogin.addEventListener("click", e => {
+
+    });*/
+    getRanking();
+}
+
+const getRanking = function(){
+    const key = "ranking";
+    fetch(SERVER_URL + key, 
+        {
+            method: 'POST',
+            headers: { 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+            body: '{}'
+        }
+    ).then(response => { 
+        response.json().then(json => {
+            var arr = Object.values(json)[0];
+            var tabela = document.getElementById(key);
+            var tbody = tabela.getElementsByTagName("tbody")[0];
+            for(var i in arr){
+                var pr = Ranking.from(arr[i]);
+                console.log(pr);
+                if(pr != null && pr != undefined){
+                    tbody.appendChild(buildTableRank(parseInt(i) + 1, pr));
+                }
+            }
+        }) 
+    });
+}
+
+const buildTableRank = function(index, ranking){
+    var row = document.createElement("tr");
+    var rowIndex = document.createElement("th");
+    var val_nick = document.createElement("td");
+    var val_games = document.createElement("td");
+    var val_vict = document.createElement("td");
+
+    rowIndex.innerText = index;
+    val_nick.innerText = ranking.getNick();
+    val_games.innerText = ranking.getGames();
+    val_vict.innerText = ranking.getVictories();
+
+    row.appendChild(rowIndex);
+    row.appendChild(val_nick);
+    row.appendChild(val_vict);
+    row.appendChild(val_games);
+
+    return row;
+}
+
+const getUsername = function(){
+    var username = document.getElementById("username");
+    var valorUser = username.value;
+    return valorUser;
+}
+
+const getPassword = function(){
+    var password = document.getElementById("password");
+    var valorPass = password.value;
+    return valorPass;
+}
