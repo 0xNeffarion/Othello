@@ -226,7 +226,7 @@ const setPlaceholders = function(TABULEIRO, color){
 }
 
 const copyTable = function(table){
-    var NT = new Array(ROWS);
+       var NT = new Array(ROWS);
 
     for(let i = 0; i < COLS; i++){
         NT[i] = constructRows();

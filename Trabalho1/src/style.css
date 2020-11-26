@@ -7,7 +7,7 @@ body {
     background-color: rgb(39, 39, 39);
     color: white;
     margin: 0 auto;
-    font-size: 16   px;
+    font-size: 16px;
 }
 
 #wrapper {
@@ -230,20 +230,18 @@ table tr:nth-child(2n) td:nth-child(2n-1) {
     width: 150px;
     height: 35px;
 }
-/**/
 
 div.cores{
  width:190px;
  height:28px;
  align-items: center;
  border: 15px solid;
- border-color: #C0C0C0 #E0FFFF #708090 #5F9EA0; /* T, R, B, L*/
+ border-color: #c0c0c0 #e4ffe0 #709078 #5fa07f;
  margin-left: auto;
  margin-right: auto;
  font-weight: bold;
  }
 
-/**/
 
 #authenticated {
     display:none;

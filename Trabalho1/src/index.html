@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <title>Othello</title>
         <link rel="stylesheet" type="text/css" href="./style.css" />
-        <script type="text/javascript" src="./scripts.js"></script>
-        <script type="text/javascript" src="./jogo.js"></script>
-        <script type="text/javascript" src="./algo.js"></script>
-        <script type="text/javascript" src="./ai.js"></script>
-        <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+        <script src="./scripts.js"></script>
+        <script src="./jogo.js"></script>
+        <script src="./ai.js"></script>
+        <script src="./client.js"></script>
         <meta name="viewport" content="width=device-width"/>
     </head>
     <body>
@@ -176,13 +176,14 @@
                     <div id="msg-jogabranco">É o disco branco a jogar!</div>
                     <div id="msg-desist">O jogador desistiu e perdeu!</div>
                   </div>
-                  <div id="classicacoes" style="center">
-                    <br><div class="cores" >Jogador: <span id="pontos_jogador"></span> Discos</div><br>
-                    <div class="cores">Oponente: <span id="pontos_oponente"></span> Discos</div><br>
-                    <div class="cores">Discos vazios: <span id="pontos_vazio"></span></div>
+                  <div id="classicacoes">
                   </div>
                   <div id="estado">
-                    <div>Turno: <span id="jogador_turno"></span></div>
+                    </br>
+                    <div class="cores">Turno: <span id="jogador_turno"></span></div><br/>
+                    <div class="cores">Jogador: <span id="pontos_jogador"></span> Discos</div><br>
+                    <div class="cores">Oponente: <span id="pontos_oponente"></span> Discos</div><br>
+                    <div class="cores">Discos vazios: <span id="pontos_vazio"></span></div>
                   </div>
               </div>
             <div id="menu">
@@ -196,8 +197,6 @@
                 </ul>
             </div>
         </div>
+      </div>
     </body>
-    <footer>
-
-    </footer>
 </html>
