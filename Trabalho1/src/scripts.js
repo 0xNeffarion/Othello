@@ -46,33 +46,32 @@ const addListeners = function(){
 }
 
 const loadClient = async function(){
-  //eu coloquei isto porque haverá de ser do btnLogin quando clicado que vem a informação
-    /*const btnLogin = document.getElementById("btnLogin");
-
-    btnLogin.addEventListener("click", event =>{})
-    btnLogin.addEventListener("click", event =>{
-        event.PreventDefault();
-    })*/
-    await getRanking();
+    document.getElementById("btnLogin").addEventListener("click", async function() { await doRegister(); });
+    document.getElementById("novo_jogo").addEventListener("click", async function() { await join(); });
+    document.getElementById("btnLogout").addEventListener("click", async function() { await doLogout(); });
+    
+    
+    await setRanking();
 }
 
-const getRanking = async function(){
+const setRanking = async function(){
     const key = 'ranking';
     var req = await sendPOST(key, '{}');
+    var resultado = req[0];
     var tabela = document.getElementById(key);
     var tbody = tabela.getElementsByTagName("tbody")[0];
     var index = 0;
-    for(var i of req){
-        var pr = new Ranking(i);
+    for(var i = 0; i < resultado.length; i++){
+        var pr = new Ranking(resultado[i]);
         if(pr != null && pr != undefined){
-            tbody.appendChild(buildTableRank(index + 1, pr));
+            tbody.appendChild(buildRankTable(index + 1, pr));
         }
 
         index++;
     }
 }
 
-const buildTableRank = function(index, ranking){
+const buildRankTable = function(index, ranking){
     var row = document.createElement("tr");
     var rowIndex = document.createElement("th");
     var val_nick = document.createElement("td");
@@ -92,26 +91,57 @@ const buildTableRank = function(index, ranking){
     return row;
 }
 
-const getRegister = function(){
-    const key1 = "register";
-    fetch(SERVER_URL + key1,
-        {
-            method: 'POST',
-            headers: { 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-            body: '{}'
-        }
-    ).then(response => response.json())
-     .then(json => {
-            var arr = Object.values(json);
-            //var player = document.getElementById(key1);
-            for(var i = 0; i < arr.length; i++){
-                var pr = new Register(arr[i]);
-                console.log(pr);
-            }
-      })
-    .catch(err => console.log('Falhou', err));
+const doRegister = async function(){
+    var nick = getUsername();
+    var password = getPassword();
+    var body = {
+        nick: nick,
+        pass: password
+    }
+
+    var json = JSON.stringify(body);
+    var req = await sendPOST("register", json);
+    if(req == null){
+        document.getElementById("login_result").innerText = "Erro a fazer login";
+        return;
+    }else{
+        document.getElementById("nome_util").innerText = nick;
+        document.getElementById("authenticated").style.display = "block";
+        document.getElementById("normal_login").style.display = "none";
+        utilizador = new User(nick, password);
+    }
+
 }
 
+const doLogout = async function(){
+    utilizador = null;
+    document.getElementById("nome_util").innerText = "";
+    document.getElementById("authenticated").style.display = "none";
+    document.getElementById("normal_login").style.display = "block";
+    document.getElementById("login_result").innerText = "";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+}
+
+const join = async function(){
+    var arr = {
+        group: GRUPO,
+        nick: utilizador.getNickname(),
+        pass: utilizador.getPassword(),
+    };
+
+    var res = await sendPOST("join", JSON.stringify(arr));
+    if(res == null){
+        console.error("Erro a juntar a jogo");
+        return;
+    }
+
+    var id = res[0];
+    var color = res[1];
+    var event = setupEvent("update", "game=" + id + "&nick=" + utilizador.getNickname(), function(e) { updateGameEvent(e); });
+
+    currentGame = new Game(id, color, event);
+}
 
 const getUsername = function(){
     var username = document.getElementById("username");

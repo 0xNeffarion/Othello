@@ -215,11 +215,11 @@ table tr:nth-child(2n) td:nth-child(2n-1) {
     color: rgb(25, 109, 206);
 }
 
-#identificacao #normal form {
+#identificacao #normal_login form {
     margin-top: 10px;
 }
 
-#identificacao #normal form input {
+#identificacao #normal_login form input {
     margin: 0 auto;
     margin-top: 5px;
     text-align: center;
@@ -227,7 +227,7 @@ table tr:nth-child(2n) td:nth-child(2n-1) {
     width: 240px;
 }
 
-#identificacao #normal form input[type=submit]{
+#identificacao #normal_login form input[type=submit]{
     width: 150px;
     height: 35px;
 }
@@ -253,7 +253,7 @@ div.cores{
     margin: 3px;
 }
 
-input[type=submit]{
+input[type=button]{
     color: white;
     background-color: transparent;
     border: 1px white solid;
@@ -266,12 +266,12 @@ input[type=submit]{
     padding-right: 15px;
 }
 
-input[type=submit]:hover{
+input[type=button]:hover{
     color: rgb(25, 206, 206);
     background-color: rgb(54, 54, 54);
 }
 
-input[type=submit]:active{
+input[type=button]:active{
     color: rgb(25, 109, 206);
 }
 

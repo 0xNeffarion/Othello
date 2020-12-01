@@ -126,16 +126,17 @@
                   <div id="identificacao">
                       <div id="authenticated">
                           <br/>
-                          Autenticado como: <div id="nome_util"></div><br/>
-                          <form method="post" name="logout">
-                              <input type="submit" name="btnLogout" value="Terminal sessão" />
+                          Autenticado como: <div id="nome_util"></div><br/><br/>
+                          <form name="logout">
+                              <input type="button" id="btnLogout" name="btnLogout" value="Terminar sessão" />
                           </form>
                       </div>
-                      <div id="normal">
-                          <form method="post" name="login">
-                              Utilizador: <input type="text" name="username" /><br/>
-                              Password: <input type="password" name="password"/><br/>
-                              <input type="submit" name="btnLogin" value="Submeter" />
+                      <div id="normal_login">
+                          <form name="login">
+                              Utilizador: <input type="text" id="username" name="username" /><br/>
+                              Password: <input type="password" id="password" name="password"/><br/>
+                              <input id="btnLogin" type="button" name="btnLogin" value="Submeter" /><br/><br/>
+                              <div id="login_result"></div>
                           </form>
                       </div>
                   </div>
@@ -168,7 +169,7 @@
                         <option value="dificil">Difícil</option>
                       </select>
                       <br/><br/>
-                      <input type="submit" value="Começar novo jogo" />
+                      <input type="button" id="novo_jogo" value="Começar novo jogo" />
                     </form>
                   </div>
                   <div id="mensagens">

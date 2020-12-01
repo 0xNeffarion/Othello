@@ -1,11 +1,11 @@
 // MINIMAX CONFIG
 // -------------------
 
-const MAX_DEPTH = 5;
+var MAX_DEPTH = 5;
 const MAX = BLACK;
 const MIN = WHITE;
 
-const CPU_SLEEP_MS = 1000;
+const CPU_SLEEP_MS = 1500;
 
 class Result {
     constructor(tabuleiro, coord, pontos){

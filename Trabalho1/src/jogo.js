@@ -269,7 +269,6 @@ const jogarPeca = async function(row, col){
         await sleep(CPU_SLEEP_MS);
         var coord = cpuPlay(JOGO, TURN);
         fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
-        console.log(coord);
     }
 
     TURN = enemy(TURN);

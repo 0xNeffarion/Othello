@@ -1,17 +1,70 @@
-const SERVER_URL = "http://twserver.alunos.dcc.fc.up.pt:8008/";
 
-class Register{
+const SERVER_PORT = 8008;
+const SERVER = "twserver.alunos.dcc.fc.up.pt";
+const SERVER_URL = "http://" + SERVER +  ":" + SERVER_PORT + "/";
+const SERVER_WS = "ws://" + SERVER +  ":" + SERVER_PORT + "/";
+
+const GRUPO = 57;
+
+var currentGame = null;
+var utilizador = null;
+
+
+class Update {
+
+    constructor(serverBoard, turn){
+        this.serverBoard = serverBoard;
+        this.turn = turn;
+    }
+
+    getServerBoard(){
+        return this.serverBoard;
+    }
+
+    getTurn(){
+        return this.turn;
+    }
+
+    getRealBoard(){
+        return translateBoard(this.getServerBoard());
+    }
+
+}
+
+class Game {
+
+    constructor(id, color, updateEvent){
+        this.id = id;
+        this.color = color;
+        this.updateEvent = updateEvent;
+    }
+
+    getUpdateEvent(){
+        return this.updateEvent;
+    }
+
+    getColor(){
+        return this.color;
+    }
+
+    getID(){
+        return this.id;
+    }
+
+}
+
+class User{
 
     constructor(nick, pass){
         this.nick = nick;
         this.pass = pass;
     }
 
-    getNick(){
+    getNickname(){
         return this.nick;
     }
 
-    getPass(){
+    getPassword(){
         return this.pass;
     }
 
@@ -57,13 +110,55 @@ const sendRequest = async function(method, key, data){
         .then(response => response.json())
         .catch(console.log);
 
-    return Object.values(result)[0];
+    if(result != null && result != undefined){
+        return Object.values(result);
+    }
+
+    return null;
 }
 
 const sendPOST = async function(key, data){
-    return await sendRequest('POST', key, data);
+    return await sendRequest('POST', key, data); 
 }
 
 const sendGET = async function(key, data){
     return await sendRequest('GET', key, data);
+}
+
+const setupEvent = function(key, args, fn){
+    var eventSource = new EventSource(SERVER_URL + key + "?" + args);
+    eventSource.onmessage = fn;
+    
+    return eventSource;
+}
+
+const updateGameEvent = function(event){
+    const data = JSON.parse(event.data);
+    var u = new Update(data.board, data.turn);
+    console.log(u);
+
+    console.log(u.getRealBoard());
+}
+
+const translateBoard = function(serverBoard){
+    board = new Array(ROWS);
+
+    for(let i = 0; i < COLS; i++){
+        board[i] = constructRows();
+    }
+
+    for(var i = 0; i < ROWS; i++){
+        for(var j = 0; j < COLS; j++){
+            var v = serverBoard[i][j];
+            if(v == "empty"){
+                board[i][j] = EMPTY;
+            }else if(v == "light"){
+                board[i][j] = WHITE;
+            }else{
+                board[i][j] = BLACK;
+            }
+        }
+    }
+
+    return board;
 }
