@@ -4,10 +4,10 @@
 body {
     width: 1280px;
     font-family: 'Open Sans', sans-serif;
-    background-color: rgb(39, 39, 39);
     color: white;
     margin: 0 auto;
     font-size: 16px;
+    background-color: rgb(39, 39, 39);
 }
 
 #wrapper {
@@ -16,6 +16,7 @@ body {
     position: relative;
     display: inline-block;
     text-align: center;
+    background-color: rgb(39, 39, 39);
 }
 
 #logotipo a:active, a:hover, a{
@@ -300,4 +301,21 @@ select {
 
 #mensagens {
     font-size: 18px;
+}
+
+#classicacoes table{
+  background-color: #E5AC28;
+  width: 100%;
+  height: 70%;
+  text-align: center;
+  position: relative;
+  top: 30px;
+}
+
+#classicacoes table th {
+    background-color: #BD8605;
+}
+
+#classicacoes table tr:nth-child(2n) td {
+    background-color:rgba(0, 0, 0, 0.5);
 }

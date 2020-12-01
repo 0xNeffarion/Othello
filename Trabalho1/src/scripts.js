@@ -35,7 +35,6 @@ const menuSwitch = function(id) {
     }
 }
 
-// Cria click listeners para cada menu
 const addListeners = function(){
     for (let i = 0; i < MENU_PANELS.length; i++) {
         var menuId = MENU_PANELS[i][0];
@@ -46,61 +45,31 @@ const addListeners = function(){
     }
 }
 
-class Ranking {
-    constructor(nick, victories, games){
-        this.nick = nick;
-        this.victories = victories;
-        this.games = games;
-    }
+const loadClient = async function(){
+  //eu coloquei isto porque haverá de ser do btnLogin quando clicado que vem a informação
+    /*const btnLogin = document.getElementById("btnLogin");
 
-    getNick(){
-        return this.nick;
-    }
-
-    getVictories(){
-        return this.victories;
-    }
-
-    getGames(){
-        return this.games;
-    }
-
-    static from(json){
-        return Object.assign(new Ranking(), json);
-    }
-
+    btnLogin.addEventListener("click", event =>{})
+    btnLogin.addEventListener("click", event =>{
+        event.PreventDefault();
+    })*/
+    await getRanking();
 }
 
-const SERVER_URL = "http://twserver.alunos.dcc.fc.up.pt:8008/";
-const loadClient = function(){
-    /**btnLogin.addEventListener("click", e => {
-
-    });*/
-    getRanking();
-}
-
-const getRanking = function(){
-    const key = "ranking";
-    fetch(SERVER_URL + key, 
-        {
-            method: 'POST',
-            headers: { 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-            body: '{}'
+const getRanking = async function(){
+    const key = 'ranking';
+    var req = await sendPOST(key, '{}');
+    var tabela = document.getElementById(key);
+    var tbody = tabela.getElementsByTagName("tbody")[0];
+    var index = 0;
+    for(var i of req){
+        var pr = new Ranking(i);
+        if(pr != null && pr != undefined){
+            tbody.appendChild(buildTableRank(index + 1, pr));
         }
-    ).then(response => { 
-        response.json().then(json => {
-            var arr = Object.values(json)[0];
-            var tabela = document.getElementById(key);
-            var tbody = tabela.getElementsByTagName("tbody")[0];
-            for(var i in arr){
-                var pr = Ranking.from(arr[i]);
-                console.log(pr);
-                if(pr != null && pr != undefined){
-                    tbody.appendChild(buildTableRank(parseInt(i) + 1, pr));
-                }
-            }
-        }) 
-    });
+
+        index++;
+    }
 }
 
 const buildTableRank = function(index, ranking){
@@ -123,14 +92,33 @@ const buildTableRank = function(index, ranking){
     return row;
 }
 
+const getRegister = function(){
+    const key1 = "register";
+    fetch(SERVER_URL + key1,
+        {
+            method: 'POST',
+            headers: { 'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+            body: '{}'
+        }
+    ).then(response => response.json())
+     .then(json => {
+            var arr = Object.values(json);
+            //var player = document.getElementById(key1);
+            for(var i = 0; i < arr.length; i++){
+                var pr = Register.from(arr[i]);
+                console.log(pr);
+            }
+      })
+    .catch(err => console.log('Falhou', err));
+}
+
+
 const getUsername = function(){
     var username = document.getElementById("username");
-    var valorUser = username.value;
-    return valorUser;
+    return username.value;
 }
 
 const getPassword = function(){
     var password = document.getElementById("password");
-    var valorPass = password.value;
-    return valorPass;
+    return password.value;
 }
