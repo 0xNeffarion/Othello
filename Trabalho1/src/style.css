@@ -178,6 +178,11 @@ table tr:nth-child(2n) td:nth-child(2n-1) {
     list-style: none;
     width: 100%;
 }
+.canvas_c {  
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
 
 #menu ul li {
     font-size: 18px;
