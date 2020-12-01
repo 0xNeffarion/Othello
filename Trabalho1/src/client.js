@@ -2,8 +2,9 @@ const SERVER_URL = "http://twserver.alunos.dcc.fc.up.pt:8008/";
 
 class Register{
 
-    constructor(obj){
-        Object.assign(this, obj);
+    constructor(nick, pass){
+        this.nick = nick;
+        this.pass = pass;
     }
 
     getNick(){
@@ -17,7 +18,7 @@ class Register{
 }
 
 class Ranking {
-    
+
     constructor(obj){
         Object.assign(this, obj);
     }

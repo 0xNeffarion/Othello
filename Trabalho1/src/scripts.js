@@ -105,7 +105,7 @@ const getRegister = function(){
             var arr = Object.values(json);
             //var player = document.getElementById(key1);
             for(var i = 0; i < arr.length; i++){
-                var pr = Register.from(arr[i]);
+                var pr = new Register(arr[i]);
                 console.log(pr);
             }
       })
