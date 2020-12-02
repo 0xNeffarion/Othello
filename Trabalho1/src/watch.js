@@ -1,101 +1,102 @@
-var canvas = document.querySelector('canvas1')
+var canvas = document.querySelector('mensagens')
   ;
-  
-	var clockWidth, centerX, centerY, ctx;
 
-	function setupAnalogClock(cw) {
-	   canvas = document.getElementById("analogClock");
-	   ctx = canvas.getContext("2d");
-	   clockWidth = cw;
-	   centerX = canvas.width / 2;
-	   centerY = canvas.height / 2;
+function init(){
+  clock();
+  setInterval(clock,1000);
+}
 
-	   tick();
-	   window.setInterval(tick, 1000);
-	}
+function clock(){
+  var now = new Date();
+  var ctx = canvas.getContext('2d');
+  ctx.save();
+  ctx.clearRect(0,0,150,150);
+  ctx.translate(75,75);
+  ctx.scale(0.4,0.4);
+  ctx.rotate(-Math.PI/2);
+  ctx.strokeStyle = "black";
+  ctx.fillStyle = "white";
+  ctx.lineWidth = 8;
+  ctx.lineCap = "round";
 
-	function tick() {
-	   var date = new Date();
-	   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // Hour marks
+  ctx.save();
+  for (var i=0;i<12;i++){
+    ctx.beginPath();
+    ctx.rotate(Math.PI/6);
+    ctx.moveTo(100,0);
+    ctx.lineTo(120,0);
+    ctx.stroke();
+  }
+  ctx.restore();
 
-	   drawStaticElts();
+  // Minute marks
+  ctx.save();
+  ctx.lineWidth = 5;
+  for (i=0;i<60;i++){
+    if (i%5!=0) {
+      ctx.beginPath();
+      ctx.moveTo(117,0);
+      ctx.lineTo(120,0);
+      ctx.stroke();
+    }
+    ctx.rotate(Math.PI/30);
+  }
+  ctx.restore();
 
-	   var hours = date.getHours();
-	   ctx.strokeStyle = "black";
-	   ctx.lineWidth = 2;
-	   drawHand(clockWidth / 3, hours * 30);
+  var sec = now.getSeconds();
+  var min = now.getMinutes();
+  var hr  = now.getHours();
+  hr = hr>=12 ? hr-12 : hr;
 
-	   var minutes = date.getMinutes();
-	   ctx.strokeStyle = "black";
-	   ctx.lineWidth = 2;
-	   drawHand(clockWidth / 2, minutes * 6);
+  ctx.fillStyle = "black";
 
-	   var seconds = date.getSeconds();
-	   ctx.strokeStyle = "red";
-	   ctx.lineWidth = 1;
-	   drawHand(clockWidth / 2, seconds * 6);
-	}
+  // write Hours
+  ctx.save();
+  ctx.rotate( hr*(Math.PI/6) + (Math.PI/360)*min + (Math.PI/21600)*sec )
+  ctx.lineWidth = 14;
+  ctx.beginPath();
+  ctx.moveTo(-20,0);
+  ctx.lineTo(80,0);
+  ctx.stroke();
+  ctx.restore();
 
-	function drawStaticElts() {
-	   ctx.beginPath();
-	   ctx.arc(centerX, centerY, clockWidth / 2, 0, 2 * Math.PI, false);
-	   ctx.strokeStyle = "black";
-	   ctx.lineWidth = 2;
-	   ctx.stroke();
-	   ctx.closePath();
+  // write Minutes
+  ctx.save();
+  ctx.rotate( (Math.PI/30)*min + (Math.PI/1800)*sec )
+  ctx.lineWidth = 10;
+  ctx.beginPath();
+  ctx.moveTo(-28,0);
+  ctx.lineTo(112,0);
+  ctx.stroke();
+  ctx.restore();
 
-	   ctx.beginPath();
-	   ctx.arc(centerX, centerY, 2, 0, 2 * Math.PI, false);
-	   ctx.strokeStyle = "black";
-	   ctx.fill();
-	   ctx.closePath();
+  // Write seconds
+  ctx.save();
+  ctx.rotate(sec * Math.PI/30);
+  ctx.strokeStyle = "#D40000";
+  ctx.fillStyle = "#D40000";
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(-30,0);
+  ctx.lineTo(83,0);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0,0,10,0,Math.PI*2,true);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(95,0,10,0,Math.PI*2,true);
+  ctx.stroke();
+  ctx.fillStyle = "rgba(0,0,0,0)";
+  ctx.arc(0,0,3,0,Math.PI*2,true);
+  ctx.fill();
+  ctx.restore();
 
-	   drawNumbers();
-	}
+  ctx.beginPath();
+  ctx.lineWidth = 14;
+  ctx.strokeStyle = '#325FA2';
+  ctx.arc(0,0,142,0,Math.PI*2,true);
+  ctx.stroke();
 
-	function drawNumbers() {
-	   var i = 12;
-	   ctx.strokeStyle = "black";
-	   ctx.lineWidth = 2;
-
-	   while (i > 0) {
-	      ctx.save();
-	      ctx.beginPath();
-	      ctx.translate(centerX, centerY);
-	      var angle = (i * 30) * Math.PI / 180;
-	      ctx.rotate(angle);
-	      ctx.translate(0, -clockWidth / 2);
-
-	      ctx.save();
-	      ctx.translate(0, -10);
-	      ctx.rotate(-angle);
-
-	      ctx.fillText(i, -3, 0);
-	      ctx.restore();
-
-	      ctx.moveTo(0, 0);
-	      ctx.lineTo(0, 10);
-	      ctx.stroke();
-	      ctx.closePath();
-	      ctx.restore();
-
-	      i--;
-	   }
-	}
-
-	function drawHand(length, angle) {
-	   ctx.save();
-	   ctx.beginPath();
-	   ctx.translate(centerX, centerY);
-	   ctx.rotate(-180 * Math.PI / 180);
-	   ctx.rotate(angle * Math.PI / 180);
-	   ctx.moveTo(0, 0);
-	   ctx.lineTo(0, length);
-	   ctx.stroke();
-	   ctx.closePath();
-	   ctx.restore();
-	}
-
-	window.onload = function() {
-	   setupAnalogClock(360);
-	};
+  ctx.restore();
+}
