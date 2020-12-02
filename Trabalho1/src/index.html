@@ -19,8 +19,12 @@
         <script src="canvas.js"></script>
     </head>
     <body>
+      <div id="canvas-wrap">
+      <canvas width="20" height="10"></canvas>
+      <div id="logotipo"><a href="index.html"><h3>Othello</h3></a></div>
+       </div>
         <div id="wrapper">
-            <div id="logotipo"><a href="index.html"><h3>Othello</h3></a></div>
+            <!--<div id="logotipo"><a href="index.html"><h3>Othello</h3></a></div>-->
             <div id="jogo">
                 <div id="lado-esq">
                   <div id="tabuleiro">
@@ -179,6 +183,7 @@
                       <input type="button" id="novo_jogo" value="Começar novo jogo" />
                     </form>
                   </div>
+
                   <div id="mensagens">
                     <div id="msg-terminou">O jogo terminou!</div>
                     <div id="msg-impossivel">A jogada é impossível!</div>
@@ -198,12 +203,13 @@
                   </div>
                   <div id="estado">
                     </br>
-                    <div class="cores" >Turno: <span id="jogador_turno"></span></div><br/>
+                    <div class="cores">Turno: <span id="jogador_turno"></span></div><br/>
                     <div class="cores">Jogador: <span id="pontos_jogador"></span> Discos</div><br>
                     <div class="cores">Oponente: <span id="pontos_oponente"></span> Discos</div><br>
                     <div class="cores">Discos vazios: <span id="pontos_vazio"></span></div>
                   </div>
               </div>
+            <div id="canvas-wrap">
             <div id="menu">
                 <ul>
                     <li><a id="menu_1">Instruções</a></li>
@@ -213,6 +219,7 @@
                     <li><a id="menu_5">Classificações</a></li>
                     <li><a id="menu_6">Mensagens</a></li>
                 </ul>
+            </div>
             </div>
         </div>
       </div>

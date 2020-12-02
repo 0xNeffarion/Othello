@@ -3,6 +3,7 @@
 
 body {
     width: 1280px;
+    height: inherit;
     font-family: 'Open Sans', sans-serif;
     color: white;
     margin: 0 auto;
@@ -16,13 +17,15 @@ body {
     position: relative;
     display: inline-block;
     text-align: center;
-    background-color: rgb(39, 39, 39);
+    /*background-color: rgb(39, 39, 39);*/
+    background-color: none;
 }
 
 #logotipo a:active, a:hover, a{
     font-style: normal;
     text-decoration: none;
     color:white;
+    margin-top: 0px;
 }
 
 #logotipo h3 {
@@ -31,12 +34,18 @@ body {
     font-style: normal;
     text-align: center;
     font-size: 42px;
+    margin-top: 0px;
 }
 
 #logotipo {
+    margin-top: 0px;
     border-bottom: 2px white solid;
     margin-bottom: 40px;
 }
+
+#canvas-wrap {
+  position:relative;
+  }
 
 #jogo {
     height: 600px;
@@ -178,27 +187,13 @@ table tr:nth-child(2n) td:nth-child(2n-1) {
     list-style: none;
     width: 100%;
 }
-.canvas_c {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-}
 
 #menu ul li {
     font-size: 18px;
     font-weight: bold;
     padding: 10px;
     text-align: center;
-    background-color: rgb(41, 41, 41);
-    border: 1px solid white;
-}
-
-#menu ul li {
-    font-size: 18px;
-    font-weight: bold;
-    padding: 10px;
-    text-align: center;
-    background-color: rgb(41, 41, 41);
+    background-color: none;
     border: 1px solid white;
 }
 
@@ -246,6 +241,7 @@ div.cores{
  margin-left: auto;
  margin-right: auto;
  font-weight: bold;
+ background-color: rgb(41, 41, 41);
  }
 
 
@@ -323,4 +319,10 @@ select {
 
 #classicacoes table tr:nth-child(2n) td {
     background-color:#06d6a0;
+}
+
+.canvas_c {
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
