@@ -45,7 +45,6 @@ const addListeners = function(){
         }
     }
 
-
     var comboOponent = document.getElementById("oponente");
     comboOponent.addEventListener("change", function() {
         var style = "initial";
