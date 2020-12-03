@@ -5,22 +5,21 @@
         <link rel="stylesheet" type="text/css" href="./style.css" />
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
         <meta content="utf-8" http-equiv="encoding">
+        <meta name="viewport" content="width=device-width"/>
         <script src="./client.js"></script>
         <script src="./scripts.js"></script>
         <script src="./jogo.js"></script>
         <script src="./ai.js"></script>
-        <meta name="viewport" content="width=device-width"/>
-        <canvas class="canvas_c">
-        </canvas>
+        <canvas class="canvas_c"></canvas>
         <script src="canvas.js"></script>
     </head>
     <body>
       <div id="canvas-wrap">
-      <canvas width="20" height="10"></canvas>
-      <div id="logotipo"><a href="index.html"><h3>Othello</h3></a></div>
-       </div>
+        <div id="logotipo">
+          <a href="index.html"><h3>Othello</h3></a>
+        </div>
+      </div>
         <div id="wrapper">
-            <!--<div id="logotipo"><a href="index.html"><h3>Othello</h3></a></div>-->
             <div id="jogo">
                 <div id="lado-esq">
                   <div id="tabuleiro">
@@ -143,7 +142,8 @@
                               Utilizador: <input type="text" id="username" name="username" /><br/>
                               Password: <input type="password" id="password" name="password"/><br/>
                               <input id="btnLogin" type="button" name="btnLogin" value="Submeter" /><br/><br/>
-                              <div id="login_result"></div>
+                              <div id="login_result"></div><br/>
+                              <div id="login_result_error"></div>
                           </form>
                       </div>
                   </div>
@@ -156,27 +156,34 @@
                     </ul>
                   </div>
                   <div id="configuracao">
-                    <form method="post" name="config">
+                    <form name="config">
                       Jogar contra: <br/>
                       <select name="oponente" id="oponente">
-                        <option value="pc">PC</option>
+                        <option selected value="pc">PC</option>
                         <option value="jogador">Jogador</option>
                       </select>
                       <br/>
-                      Cor a jogar:<br/>
-                      <select name="cor" id="cor">
-                        <option value="branco">Branco</option>
-                        <option value="preto">Preto</option>
-                      </select>
+                      <div id="bloco-cor">
+                        Cor a jogar:<br/>
+                        <select name="cor" id="cor">
+                          <option value="1">Branco</option>
+                          <option value="-1">Preto</option>
+                        </select>
+                        <br/>
+                      </div>
+                      <div id="bloco-difficuldade">
+                        Nível de dificuldade:<br/>
+                        <select name="dificuldade" id="dificuldade">
+                          <option value="2">Fácil</option>
+                          <option value="3" selected>Normal</option>
+                          <option value="5">Difícil</option>
+                        </select>
+                        <br/>
+                      </div>
                       <br/>
-                      Nível de dificuldade:<br/>
-                      <select name="dificuldade" id="dificuldade">
-                        <option value="facil">Fácil</option>
-                        <option value="normal" selected>Normal</option>
-                        <option value="dificil">Difícil</option>
-                      </select>
-                      <br/><br/>
                       <input type="button" id="novo_jogo" value="Começar novo jogo" />
+                      <div id="novo_jogo_msg"></div>
+                      <div id="novo_jogo_err"></div>
                     </form>
                   </div>
 

@@ -87,7 +87,7 @@ function init(){
     circleArray.push(new Circle(x, y, dx, dy, radius));
   }
 }
-init();
+
 
 function animate(){
   requestAnimationFrame(animate);
@@ -101,4 +101,4 @@ function animate(){
 
 }
 
-animate();
+

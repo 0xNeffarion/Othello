@@ -10,9 +10,10 @@ const MENU_PANELS = [
 
 // Inicializar o menu e o jogo apos a pagina carregar
 window.onload = function() {
+    init();
+    animate();  
     addListeners();
     loadClient();
-    startGame();
 }
 
 // Muda o painel correspondente ao menu clicado
@@ -43,112 +44,30 @@ const addListeners = function(){
             element.addEventListener("click", function(){ menuSwitch(this.id); });
         }
     }
-}
 
-const loadClient = async function(){
-    document.getElementById("btnLogin").addEventListener("click", async function() { await doRegister(); });
-    document.getElementById("novo_jogo").addEventListener("click", async function() { await join(); });
-    document.getElementById("btnLogout").addEventListener("click", async function() { await doLogout(); });
-    
-    
-    await setRanking();
-}
 
-const setRanking = async function(){
-    const key = 'ranking';
-    var req = await sendPOST(key, '{}');
-    var resultado = req[0];
-    var tabela = document.getElementById(key);
-    var tbody = tabela.getElementsByTagName("tbody")[0];
-    var index = 0;
-    for(var i = 0; i < resultado.length; i++){
-        var pr = new Ranking(resultado[i]);
-        if(pr != null && pr != undefined){
-            tbody.appendChild(buildRankTable(index + 1, pr));
+    var comboOponent = document.getElementById("oponente");
+    comboOponent.addEventListener("change", function() {
+        var style = "initial";
+        if(this.value == "jogador"){
+            style = "none";
         }
 
-        index++;
-    }
-}
+        document.getElementById("bloco-difficuldade").style.display = style;
+        document.getElementById("bloco-cor").style.display = style;
+    });
 
-const buildRankTable = function(index, ranking){
-    var row = document.createElement("tr");
-    var rowIndex = document.createElement("th");
-    var val_nick = document.createElement("td");
-    var val_games = document.createElement("td");
-    var val_vict = document.createElement("td");
+    var btnStart = document.getElementById("novo_jogo");
+    btnStart.addEventListener("click", function(){
+        var opp = document.getElementById("oponente").value;
+        if(opp == "pc"){
+            var cor = parseInt(document.getElementById("cor").value);
+            var diff = parseInt(document.getElementById("dificuldade").value);
+            cpuStartGame(diff, cor);
+        }else{
+            //join();
+            //playerStartGame();
+        }
+    });
 
-    rowIndex.innerText = index;
-    val_nick.innerText = ranking.getNick();
-    val_games.innerText = ranking.getGames();
-    val_vict.innerText = ranking.getVictories();
-
-    row.appendChild(rowIndex);
-    row.appendChild(val_nick);
-    row.appendChild(val_vict);
-    row.appendChild(val_games);
-
-    return row;
-}
-
-const doRegister = async function(){
-    var nick = getUsername();
-    var password = getPassword();
-    var body = {
-        nick: nick,
-        pass: password
-    }
-
-    var json = JSON.stringify(body);
-    var req = await sendPOST("register", json);
-    if(req == null){
-        document.getElementById("login_result").innerText = "Erro a fazer login";
-        return;
-    }else{
-        document.getElementById("nome_util").innerText = nick;
-        document.getElementById("authenticated").style.display = "block";
-        document.getElementById("normal_login").style.display = "none";
-        utilizador = new User(nick, password);
-    }
-
-}
-
-const doLogout = async function(){
-    utilizador = null;
-    document.getElementById("nome_util").innerText = "";
-    document.getElementById("authenticated").style.display = "none";
-    document.getElementById("normal_login").style.display = "block";
-    document.getElementById("login_result").innerText = "";
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-}
-
-const join = async function(){
-    var arr = {
-        group: GRUPO,
-        nick: utilizador.getNickname(),
-        pass: utilizador.getPassword(),
-    };
-
-    var res = await sendPOST("join", JSON.stringify(arr));
-    if(res == null){
-        console.error("Erro a juntar a jogo");
-        return;
-    }
-
-    var id = res[0];
-    var color = res[1];
-    var event = setupEvent("update", "game=" + id + "&nick=" + utilizador.getNickname(), function(e) { updateGameEvent(e); });
-
-    currentGame = new Game(id, color, event);
-}
-
-const getUsername = function(){
-    var username = document.getElementById("username");
-    return username.value;
-}
-
-const getPassword = function(){
-    var password = document.getElementById("password");
-    return password.value;
 }

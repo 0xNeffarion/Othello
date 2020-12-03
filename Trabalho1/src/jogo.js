@@ -19,6 +19,9 @@ var CPU = BLACK;
 // JOGADOR DO TURNO DE AGORA
 var TURN = PLAYER;
 
+var againstCPU = false;
+var againstPLAYER = false;
+
 // TABULEIRO
 var JOGO = new Array(ROWS);
 
@@ -133,7 +136,11 @@ const setColor = function(row, col, color){
         if(colElement[0] != null && color != EMPTY){
             var dot = buildDot(color);
             if(color == PLACEHOLDER){
-                dot.addEventListener("click", function() { jogarPeca(row, col); });
+                dot.addEventListener("click", function() { 
+                    if(!isSleeping){
+                        jogarPeca(row, col); 
+                    }
+                });
             }
             
             colElement[0].appendChild(dot);
@@ -226,7 +233,7 @@ const setPlaceholders = function(TABULEIRO, color){
 }
 
 const copyTable = function(table){
-       var NT = new Array(ROWS);
+    var NT = new Array(ROWS);
 
     for(let i = 0; i < COLS; i++){
         NT[i] = constructRows();
@@ -256,36 +263,45 @@ const isFull = function(TABULEIRO){
     return true;
 }
 
-const jogarPeca = async function(row, col){
+// CPU Play
+const cpuJogarPeca = async function(row, col){
 
     // JOGADOR
     fillPecas(JOGO, row, col, TURN);
+
+    // Switch turn
     TURN = enemy(TURN);
     drawGame();
     setPlaceholders(JOGO, TURN);
-
     updateEstado();
+
+    // CPU Play
     if(canPlay(JOGO)){
+        isSleeping = true;
         await sleep(CPU_SLEEP_MS);
         var coord = cpuPlay(JOGO, TURN);
         fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
+        isSleeping = false;
     }
 
+    // Draw my turn
     TURN = enemy(TURN);
     setPlaceholders(JOGO, TURN);
     drawGame();
     updateEstado();
 
+    // Can't make a move
     if(!canPlay(JOGO)){
+        isSleeping = true;
         TURN = enemy(TURN);
         await sleep(CPU_SLEEP_MS);
         var coord = cpuPlay(JOGO, TURN);
         fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
-        console.log(coord);
         TURN = enemy(TURN);
         setPlaceholders(JOGO, TURN);
         drawGame();
         updateEstado();
+        isSleeping = false;
     }
 }
 
@@ -367,10 +383,34 @@ const drawGame = function(){
     }
 }
 
-// Inicializa um jogo novo
-const startGame = function() {
+
+// Inicializa um jogo novo com o cpu
+const cpuStartGame = function(difficulty, myColor) {
+    MAX_DEPTH = difficulty;
+    PLAYER = myColor;
+    CPY = enemy(myColor);
+    TURN = PLAYER;
     emptyTable();
     fillStartingPositions();
     drawGame();
     updateEstado();
+}
+
+// Inicializa um jogo novo com outro jogador
+const playerStartGame = function(myColor, startingBoard){
+
+}
+
+// Clica num disco
+const jogarPeca = function(row, col){
+    if(againstPLAYER){
+        playerJogarPeca(row,col);
+    }else{
+        cpuJogarPeca(row, col);
+    }
+}
+
+
+const playerJogarPeca = function(row, col){
+    
 }
