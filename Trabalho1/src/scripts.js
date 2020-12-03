@@ -49,8 +49,8 @@ const loadClient = async function(){
     document.getElementById("btnLogin").addEventListener("click", async function() { await doRegister(); });
     document.getElementById("novo_jogo").addEventListener("click", async function() { await join(); });
     document.getElementById("btnLogout").addEventListener("click", async function() { await doLogout(); });
-    
-    
+
+
     await setRanking();
 }
 

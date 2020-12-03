@@ -1,7 +1,7 @@
 // MINIMAX CONFIG
 // -------------------
 
-var MAX_DEPTH = 5;
+var MAX_DEPTH = 3;
 const MAX = BLACK;
 const MIN = WHITE;
 
@@ -143,7 +143,7 @@ function shuffle(a) {
 const boundsCheck = function(row, col){
     if(row >= ROWS || row < 0 || col >= COLS || col < 0){
         return false;
-    }   
+    }
 
     return true;
 }
@@ -287,7 +287,7 @@ const fillTopRight = function(TABULEIRO, mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
@@ -305,7 +305,7 @@ const fillTopLeft = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
@@ -323,7 +323,7 @@ const fillTop = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
@@ -341,7 +341,7 @@ const fillBottom = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
@@ -359,7 +359,7 @@ const fillBottomRight = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
@@ -377,7 +377,7 @@ const fillBottomLeft = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
@@ -395,7 +395,7 @@ const fillRight = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
@@ -413,7 +413,7 @@ const fillLeft = function(TABULEIRO,mycolor, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     var opponent = enemy(mycolor);
 
@@ -433,7 +433,7 @@ const fillCheckTopRight = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     if(cor == PLACEHOLDER){
         return INV_POINT;
@@ -454,7 +454,7 @@ const fillCheckTopLeft = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     if(cor == PLACEHOLDER){
         return INV_POINT;
@@ -475,7 +475,7 @@ const fillCheckTop = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     if(cor == PLACEHOLDER){
         return INV_POINT;
@@ -496,7 +496,7 @@ const fillCheckBottom = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     if(cor == PLACEHOLDER){
         return INV_POINT;
@@ -517,7 +517,7 @@ const fillCheckBottomRight = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     if(cor == PLACEHOLDER){
         return INV_POINT;
@@ -538,7 +538,7 @@ const fillCheckBottomLeft = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     if(cor == PLACEHOLDER){
         return INV_POINT;
@@ -559,7 +559,7 @@ const fillCheckRight = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     if(cor == PLACEHOLDER){
         return INV_POINT;
@@ -580,7 +580,7 @@ const fillCheckLeft = function(TABULEIRO, opponent, row, col){
     if(!boundsCheck(row, col)){
         return INV_POINT;
     }
-    
+
     var cor = TABULEIRO[row][col];
     if(cor == PLACEHOLDER){
         return INV_POINT;
@@ -595,4 +595,42 @@ const fillCheckLeft = function(TABULEIRO, opponent, row, col){
     }
 
     return INV_POINT;
+}
+
+var pcVict = 0;
+var userVict = 0;
+
+const win = function(TABULEIRO) {
+    var valueEmpty = countPoints(TABULEIRO, empty);
+    var myScore = countPoints(TABULEIRO, color);
+    var opponentScore = countPoints(TABULEIRO,enemy(color));
+    if(valueEmpty===0){
+      if(myScore>opponentScore){
+        userVict++;
+      } else{
+        pcVict++;
+      }
+    }
+}
+let key = "PC";
+localStorage.setItem(key, pcVict);
+
+let chave = "USER";
+localStorage.setItem(chave, userVict);
+
+const imprVi = function(){
+  if(typeof(Storage) != 'undefined'){
+    
+  }
+    var row = document.createElement("tr");
+    var val_pc = document.createElement("td");
+    var val_eu = document.createElement("td");
+
+    val_pc.innerText = localStorage.getItem(key);
+    val_eu.innerText = localStorage.getItem(chave);
+
+    row.appendChild(val_pc);
+    row.appendChild(val_eu);
+
+    return row;
 }
