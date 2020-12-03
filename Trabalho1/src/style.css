@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
+html{
+    background-color: rgb(39, 39, 39);
+}
+
 body {
     width: 1280px;
     height: inherit;
@@ -8,7 +12,6 @@ body {
     color: white;
     margin: 0 auto;
     font-size: 16px;
-    background-color: rgb(39, 39, 39);
 }
 
 #wrapper {

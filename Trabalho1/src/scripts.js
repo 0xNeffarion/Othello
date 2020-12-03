@@ -10,9 +10,8 @@ const MENU_PANELS = [
 
 // Inicializar o menu e o jogo apos a pagina carregar
 window.onload = function() {
-    init();
-    animate();  
-    addListeners();
+    loadCircles();
+    addGlobalListeners();
     loadClient();
 }
 
@@ -36,7 +35,7 @@ const menuSwitch = function(id) {
     }
 }
 
-const addListeners = function(){
+const addGlobalListeners = function(){
     for (let i = 0; i < MENU_PANELS.length; i++) {
         var menuId = MENU_PANELS[i][0];
         var element = document.getElementById(menuId);

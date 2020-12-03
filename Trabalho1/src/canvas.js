@@ -1,5 +1,4 @@
-var canvas = document.querySelector('canvas')
-  ;
+var canvas = document.querySelector('canvas');
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -10,10 +9,12 @@ var mouse = {
     x: undefined,
     y: undefined
 }
-var maxRadius = 30;
-//var minRadius = 7;
 
-var colorArray = [
+var maxRadius = 25;
+const maxBalls = 400;
+var circleArray = [];
+
+const colorArray = [
   '#594157',
   '#726DA8',
   '#7D8CC4',
@@ -21,21 +22,18 @@ var colorArray = [
   '#BEE7E8',
 ];
 
-window.addEventListener('mousemove',
-  function(event){
-    mouse.x = event.x;
-    mouse.y = event.y;
-  })
+const initCircleEvents = function(){
+  window.addEventListener('mousemove', function(event){ mouse.x = event.x; mouse.y = event.y; });
 
-window.addEventListener('resize',
-  function(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  window.addEventListener('resize', function(){
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
 
-    init();
-})
+      initCircles();
+  });
+}
 
-function Circle(x, y, dx, dy, radius){
+const circle = function(x, y, dx, dy, radius){
   this.x = x;
   this.y = y;
   this.dx = dx;
@@ -74,22 +72,22 @@ function Circle(x, y, dx, dy, radius){
   }
 }
 
-var circleArray = [];
 
-function init(){
+
+const initCircles = function(){
   circleArray = [];
-  for(var i = 0; i< 800; i++){
+  for(var i = 0; i < maxBalls; i++){
     var radius = Math.random() * 3 + 1;;
     var x = Math.random() * (innerWidth - radius * 2) + radius;
     var y = Math.random() * (innerHeight - radius * 2) + radius ;
     var dx = (Math.random()-0.5);
     var dy = (Math.random()-0.5);
-    circleArray.push(new Circle(x, y, dx, dy, radius));
+    circleArray.push(new circle(x, y, dx, dy, radius));
   }
 }
 
 
-function animate(){
+const animate = function(){
   requestAnimationFrame(animate);
 
   c.clearRect(0, 0, innerWidth, innerHeight);
@@ -98,7 +96,11 @@ function animate(){
     circleArray[i].update();
   }
 
-
 }
 
+const loadCircles = function(){
+  initCircles();
+  animate();
+  initCircleEvents();
+}
 
