@@ -3,7 +3,7 @@ const SERVER = "twserver.alunos.dcc.fc.up.pt";
 const SERVER_URL = "http://" + SERVER +  ":" + SERVER_PORT + "/";
 const GRUPO = "57";
 
-var currentGame = null;
+var currentGameInfo = null;
 var utilizador = null;
 
 class Update {
@@ -141,11 +141,13 @@ const setupEvent = function(key, args, fn){
 }
 
 const updateGameEvent = function(event){
-    const data = JSON.parse(event.data);
-    var u = new Update(data.board, data.turn);
-    console.log(u);
+    if(currentGameInfo == null){
 
-    console.log(u.getRealBoard());
+    }
+
+    const data = JSON.parse(event.data);
+    var update = new Update(data.board, data.turn);
+    
 }
 
 const translateBoard = function(serverBoard){
@@ -173,14 +175,19 @@ const translateBoard = function(serverBoard){
 
 const loadClient = async function(){
     document.getElementById("btnLogin").addEventListener("click", async function() { await register(); });
-    document.getElementById("btnLogout").addEventListener("click", async function() { await doLogout(); });
+    document.getElementById("btnLogout").addEventListener("click", async function() { await logout(); });
     
-    await setRanking();
+    await fetchRanking();
 }
 
-const setRanking = async function(){
+const fetchRanking = async function(){
     const key = 'ranking';
     var req = await sendPOST(key, '{}');
+    if(req == undefined || isError(req)){
+        console.log(errorMsg(req));
+        return;
+    }
+
     var resultado = req[0];
     var tabela = document.getElementById(key);
     var tbody = tabela.getElementsByTagName("tbody")[0];
@@ -239,7 +246,7 @@ const register = async function(){
 
 }
 
-const doLogout = async function(){
+const logout = async function(){
     utilizador = null;
     document.getElementById("nome_util").innerText = "";
     document.getElementById("authenticated").style.display = "none";
@@ -257,16 +264,23 @@ const join = async function(){
     };
 
     var res = await sendPOST("join", JSON.stringify(arr));
-    if(res == null){
-        console.error("Erro a juntar a jogo");
-        return;
+    if(res == null || isError(res)){
+        if(errorMsg(res).includes("retry")){
+            console.log("Join failed. Retrying...");
+
+            await sleep(2000);
+            return await join();
+        }
+
+        console.log(errorMsg(res));
+        return null;
     }
 
     var id = res[0];
     var color = res[1];
     var event = setupEvent("update", "game=" + id + "&nick=" + utilizador.getNickname(), function(e) { updateGameEvent(e); });
 
-    currentGame = new GameInfo(id, color, event);
+    return new GameInfo(id, color, event);
 }
 
 const getUsername = function(){

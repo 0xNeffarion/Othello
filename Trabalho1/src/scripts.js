@@ -56,15 +56,16 @@ const addGlobalListeners = function(){
     });
 
     var btnStart = document.getElementById("novo_jogo");
-    btnStart.addEventListener("click", function(){
+    btnStart.addEventListener("click", async function(){
         var opp = document.getElementById("oponente").value;
         if(opp == "pc"){
             var cor = parseInt(document.getElementById("cor").value);
             var diff = parseInt(document.getElementById("dificuldade").value);
             cpuStartGame(diff, cor);
         }else{
-            //join();
-            //playerStartGame();
+            var game = await join();
+            document.getElementById("novo_jogo_msg").innerText = "A aguardar pelo outro jogador...";
+            currentGameInfo = game;
         }
     });
 

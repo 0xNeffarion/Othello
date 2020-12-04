@@ -305,11 +305,6 @@ const cpuJogarPeca = async function(row, col){
     }
 }
 
-
-const sleep = function(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 const updatePontos = function(){
     var branco = countPoints(JOGO, WHITE);
     var preto = countPoints(JOGO, BLACK);
@@ -396,11 +391,6 @@ const cpuStartGame = function(difficulty, myColor) {
     updateEstado();
 }
 
-// Inicializa um jogo novo com outro jogador
-const playerStartGame = function(myColor, startingBoard){
-
-}
-
 // Clica num disco
 const jogarPeca = function(row, col){
     if(againstPLAYER){
@@ -410,6 +400,13 @@ const jogarPeca = function(row, col){
     }
 }
 
+// Inicializa um jogo novo com outro jogador
+const playerStartGame = function(myColor, startingBoard){
+    emptyTable();
+    JOGO = copyTable(startingBoard);
+    drawGame();
+    updateEstado();
+}
 
 const playerJogarPeca = function(row, col){
     
