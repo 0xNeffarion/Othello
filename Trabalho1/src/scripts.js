@@ -11,22 +11,24 @@ const MENU_PANELS = [
 // Inicializar o menu e o jogo apos a pagina carregar
 window.onload = function() {
     loadCircles();
-    addGlobalListeners();
+    loadListeners();
     loadClient();
 }
 
 // Muda o painel correspondente ao menu clicado
 const menuSwitch = function(id) {
-    for (let i = 0; i < MENU_PANELS.length; i++) {
-        var element = document.getElementById(MENU_PANELS[i][1]);
-        if(element != null){
+    var element;
+
+    for (var i = 0; i < MENU_PANELS.length; i++) {
+        element = document.getElementById(MENU_PANELS[i][1]);
+        if(element !== null){
             element.style.display = "none";
         }
     }
 
-    for (let i = 0; i < MENU_PANELS.length; i++) {
+    for (var i = 0; i < MENU_PANELS.length; i++) {
         if(MENU_PANELS[i][0] == id){
-            var element = document.getElementById(MENU_PANELS[i][1]);
+            element = document.getElementById(MENU_PANELS[i][1]);
             if(element != null){
                 element.style.display = "block";
                 break;
@@ -35,11 +37,11 @@ const menuSwitch = function(id) {
     }
 }
 
-const addGlobalListeners = function(){
+const loadListeners = function(){
     for (let i = 0; i < MENU_PANELS.length; i++) {
         var menuId = MENU_PANELS[i][0];
         var element = document.getElementById(menuId);
-        if(element != null){
+        if(element !== null){
             element.addEventListener("click", function(){ menuSwitch(this.id); });
         }
     }
