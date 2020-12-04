@@ -15,11 +15,19 @@
         <script src="canvas.js"></script>
     </head>
     <body>
+      <div id="pop_up">
+        <div id="pop_up_box">
+          <div id="pop_up_content">
+          </div>
+          <input type="button" id="pop_up_close" value="Fechar" />
+        </div>
+    </div>
       <div id="canvas-wrap">
         <div id="logotipo">
           <a href="index.html"><h3>Othello</h3></a>
         </div>
       </div>
+      
         <div id="wrapper">
             <div id="jogo">
                 <div id="lado-esq">
@@ -183,7 +191,9 @@
                       </div>
                       <br/>
                       <input type="button" id="novo_jogo" value="Começar novo jogo" />
+                      <br/><br/>
                       <div id="novo_jogo_msg"></div>
+                      <br/>
                       <div id="novo_jogo_err"></div>
                     </form>
                   </div>

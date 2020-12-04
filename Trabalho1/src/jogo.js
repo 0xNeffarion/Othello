@@ -393,7 +393,7 @@ const cpuStartGame = function(difficulty, myColor) {
 
 // Clica num disco
 const jogarPeca = function(row, col){
-    if(againstPLAYER){
+    if(currentGameInfo != null){
         playerJogarPeca(row,col);
     }else{
         cpuJogarPeca(row, col);
@@ -401,13 +401,42 @@ const jogarPeca = function(row, col){
 }
 
 // Inicializa um jogo novo com outro jogador
-const playerStartGame = function(myColor, startingBoard){
+const playerStartGame = function(startingBoard, turn){
+    console.log("Starting a new game...");
+
     emptyTable();
     JOGO = copyTable(startingBoard);
+
+    PLAYER = currentGameInfo.getColor();
+    CPU = enemy(PLAYER);
+    TURN = (turn == utilizador.getNickname() ? PLAYER : CPU);
+
+    if(TURN == PLAYER){
+        setPlaceholders(JOGO, PLAYER);
+    }
+
     drawGame();
     updateEstado();
+    console.log("New game started");
 }
 
-const playerJogarPeca = function(row, col){
-    
+const updateBoard = function(update){
+    console.log("Updating board with new info");
+    JOGO = copyTable(update.getRealBoard());
+
+    if(update.getTurn() == utilizador.getNickname()){
+        TURN = currentGameInfo.getColor();
+        setPlaceholders(JOGO, currentGameInfo.getColor());
+    }else{
+        TURN = enemy(currentGameInfo.getColor());
+    }
+
+
+    drawGame();
+    updateEstado();
+    console.log("Done");
+}
+
+const playerJogarPeca = async function(row, col){
+    await playDisc(row, col);
 }

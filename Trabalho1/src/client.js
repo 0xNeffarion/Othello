@@ -5,6 +5,8 @@ const GRUPO = "57";
 
 var currentGameInfo = null;
 var utilizador = null;
+var gameStarted = false;
+var winner = null;
 
 class Update {
 
@@ -40,7 +42,7 @@ class GameInfo {
     }
 
     getColor(){
-        return this.color;
+        return (this.color == "light" ? WHITE : BLACK);
     }
 
     getID(){
@@ -84,15 +86,6 @@ class Ranking {
         return this.games;
     }
 
-}
-
-const status = function(response) {
-    if(response.ok){
-        return response.json();
-    }
-
-    var err = response.json();
-    return Promise.reject(err);
 }
 
 const sendRequest = async function(method, key, data){
@@ -141,13 +134,23 @@ const setupEvent = function(key, args, fn){
 }
 
 const updateGameEvent = function(event){
-    if(currentGameInfo == null){
-
-    }
-
     const data = JSON.parse(event.data);
     var update = new Update(data.board, data.turn);
-    
+
+    console.log("Received update: " + event.data);
+    if(data.winner != undefined){
+        showPopup("O jogo acabou!\nVencedor: " + data.winner)
+    }
+
+    var turn = update.getTurn();
+
+    if(!gameStarted){
+        gameStarted = true;
+        document.getElementById("novo_jogo_msg").innerText = "";
+        playerStartGame(update.getRealBoard(), turn);
+    }else{
+        updateBoard(update);
+    }
 }
 
 const translateBoard = function(serverBoard){
@@ -223,6 +226,7 @@ const buildRankTable = function(index, ranking){
 }
 
 const register = async function(){
+    console.log("Loggin in...");
     var nick = getUsername();
     var password = getPassword();
     var body = {
@@ -235,6 +239,7 @@ const register = async function(){
     if(isError(req)){
         document.getElementById("login_result").innerText = "Erro a fazer login!";
         document.getElementById("login_result_error").innerText = errorMsg(req);
+        console.log("Error logging in. " + errorMsg(req));
     }else{
         document.getElementById("nome_util").innerText = nick;
         document.getElementById("authenticated").style.display = "block";
@@ -242,11 +247,13 @@ const register = async function(){
         document.getElementById("login_result_error").style.display = "none";
         document.getElementById("login_result").style.display = "none";
         utilizador = new User(nick, password);
+        console.log("Logged in as: " + nick);
     }
 
 }
 
 const logout = async function(){
+    console.log("Logging out...");
     utilizador = null;
     document.getElementById("nome_util").innerText = "";
     document.getElementById("authenticated").style.display = "none";
@@ -254,9 +261,11 @@ const logout = async function(){
     document.getElementById("login_result").innerText = "";
     document.getElementById("username").value = "";
     document.getElementById("password").value = "";
+    console.log("Done");
 }
 
 const join = async function(){
+    console.log("Attempting to joing a game...");
     var arr = {
         group: GRUPO,
         nick: utilizador.getNickname(),
@@ -279,7 +288,8 @@ const join = async function(){
     var id = res[0];
     var color = res[1];
     var event = setupEvent("update", "game=" + id + "&nick=" + utilizador.getNickname(), function(e) { updateGameEvent(e); });
-
+ 
+    console.log("Game join request successful, waiting for opponent. ID: " + id);
     return new GameInfo(id, color, event);
 }
 
@@ -291,4 +301,21 @@ const getUsername = function(){
 const getPassword = function(){
     var password = document.getElementById("password");
     return password.value;
+}
+
+const playDisc = async function(row, col){
+    console.log("Playing disc at: (row, col)(" + row +  ", " + col + ")");
+    var move = {
+        row: row,
+        column: col
+    };
+
+    var data = {
+        nick: utilizador.getNickname(),
+        pass: utilizador.getPassword(),
+        game: currentGameInfo.getID(),
+        move: move
+    };
+
+    var result = await sendPOST("notify", JSON.stringify(data));
 }

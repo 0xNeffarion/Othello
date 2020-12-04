@@ -61,6 +61,7 @@ const addGlobalListeners = function(){
         if(opp == "pc"){
             var cor = parseInt(document.getElementById("cor").value);
             var diff = parseInt(document.getElementById("dificuldade").value);
+            currentGameInfo = null;
             cpuStartGame(diff, cor);
         }else{
             var game = await join();
@@ -68,5 +69,15 @@ const addGlobalListeners = function(){
             currentGameInfo = game;
         }
     });
+}
 
+const showPopup = function(message, postAction){
+    document.getElementById("pop_up_content").innerText = message;
+    document.getElementById("pop_up").style.display = "initial";
+
+    var popupBtn = document.getElementById("pop_up_close");
+    popupBtn.removeEventListener("click");
+    popupBtn.addEventListener("click", function() {
+        document.getElementById("pop_up").style.display = "none";
+    });
 }
