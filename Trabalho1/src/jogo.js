@@ -121,7 +121,7 @@ const buildDot = function(color){
     return dot;
 }
 
-// Cria e poem uma peça com a cor ('color') desejada e poem na linha 'row' e coluna 'col'
+// Cria e poem uma peça com a cor desejada e poem na linha 'row' e coluna 'col'
 const setColor = function(row, col, color){
     var modRow = parseInt(row)+1;
     var modCol = parseInt(col)+1;
@@ -155,6 +155,7 @@ const isEmpty = function(row, col){
 
 const updateEstado = function(){
     var jogador = (TURN == WHITE) ? "Branco" : "Preto";
+    addMsg("E o turno do jogador " + jogador);        
     document.getElementById("jogador_turno").innerText = jogador;
     updatePontos();
 }
@@ -266,8 +267,13 @@ const isFull = function(TABULEIRO){
 // CPU Play
 const cpuJogarPeca = async function(row, col){
 
+    addMsg("O jogador selecionou a peca em " + "(" + row + ", " + col + ")");
     // JOGADOR
     fillPecas(JOGO, row, col, TURN);
+
+    if(winTrigger()){
+        winnerPopup();
+    }
 
     // Switch turn
     TURN = enemy(TURN);
@@ -281,7 +287,13 @@ const cpuJogarPeca = async function(row, col){
         await sleep(CPU_SLEEP_MS);
         var coord = cpuPlay(JOGO, TURN);
         fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
+
+        addMsg("O cpu selecionou a peca em " + "(" + coord.getX() + ", " + coord.getY() + ")");
         isSleeping = false;
+
+        if(winTrigger()){
+            winnerPopup();
+        }
     }
 
     // Draw my turn
@@ -296,13 +308,18 @@ const cpuJogarPeca = async function(row, col){
         TURN = enemy(TURN);
         await sleep(CPU_SLEEP_MS);
         var coord = cpuPlay(JOGO, TURN);
-        //fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
+        fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
+        addMsg("O cpu selecionou a peca em " + "(" + coord.getX() + ", " + coord.getY() + ")");
         TURN = enemy(TURN);
         setPlaceholders(JOGO, TURN);
         drawGame();
         updateEstado();
         checkWin();
         isSleeping = false;
+
+        if(winTrigger()){
+            winnerPopup();
+        }
     }
 }
 
@@ -314,7 +331,12 @@ const updatePontos = function(){
     document.getElementById("pontos_oponente").innerText = CPU == WHITE ? branco : preto;
     document.getElementById("pontos_jogador").innerText = PLAYER == WHITE ? branco : preto;
     document.getElementById("pontos_vazio").innerText = empty;
+}
 
+// Inicializa os valores das vitorias com WebStorage
+const updateWinSettings = function(){
+    document.getElementById("PC_vic").innerText = getSetting("PC");
+    document.getElementById("Minhas_vic").innerText = getSetting("USER");
 }
 
 const checkWin = function(){
@@ -413,14 +435,14 @@ const drawGame = function(){
         return;
     }
 
+    var color;
     for(let r = 0; r < ROWS; r++){
         for(let c = 0; c < COLS; c++){
-            var color = JOGO[r][c];
+            color = JOGO[r][c];
             setColor(r, c, color);
         }
     }
 }
-
 
 // Inicializa um jogo novo com o cpu
 const cpuStartGame = function(difficulty, myColor) {
@@ -460,6 +482,14 @@ const playerStartGame = function(startingBoard, turn){
 
     drawGame();
     updateEstado();
+
+
+    if(TURN == PLAYER){
+        toggleLoadOverlay(false);
+    }else{
+        toggleLoadOverlay(true);
+    }
+
     console.log("New game started");
 }
 
@@ -467,13 +497,13 @@ const updateBoard = function(update){
     console.log("Updating board with new info");
     JOGO = copyTable(update.getRealBoard());
 
+    var myColor = currentGameInfo.getColor();
     if(update.getTurn() == utilizador.getNickname()){
-        TURN = currentGameInfo.getColor();
-        setPlaceholders(JOGO, currentGameInfo.getColor());
+        TURN = myColor;
+        setPlaceholders(JOGO, myColor);
     }else{
-        TURN = enemy(currentGameInfo.getColor());
+        TURN = enemy(myColor);
     }
-
 
     drawGame();
     updateEstado();
@@ -482,4 +512,37 @@ const updateBoard = function(update){
 
 const playerJogarPeca = async function(row, col){
     await playDisc(row, col);
+}
+
+const winTrigger = function(){
+    return (countPieces(JOGO, EMPTY) + countPieces(JOGO, PLACEHOLDER)) === 0;
+}
+
+const getWinner = function(){
+    var player = countPieces(JOGO, PLAYER);
+    var cpu = countPieces(JOGO, CPU);
+
+    if(player === cpu){
+        return null;
+    }
+
+    return (player > cpu) ? PLAYER : CPU;
+}
+
+const winnerPopup = function(){
+    var winner = getWinner();
+    var msg = "N/A";
+    if(winner == null){
+        msg = "Jogo Empatado!";
+    }else if(winner === PLAYER){
+        msg = "O Jogador Ganhou!";
+        incrementSetting("USER");
+    }else if(winner === CPU){
+        msg = "O CPU Ganhou!";
+        incrementSetting("PC");
+    }
+
+    showPopup(msg);
+    updateWinSettings();
+    addMsg(msg);
 }

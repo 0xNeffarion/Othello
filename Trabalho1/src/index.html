@@ -27,11 +27,15 @@
           <a href="index.html"><h3>Othello</h3></a>
         </div>
       </div>
-
         <div id="wrapper">
             <div id="jogo">
                 <div id="lado-esq">
                   <div id="tabuleiro">
+                    <div id="load_overlay">
+                      <div id="load_overlay_content">
+                      <img src="https://i.imgur.com/PbhaLjN.gif" /><br/><br/><span>A espera do outro jogador...</span>
+                    </div>
+                  </div>
                     <table id="tabela-jogo">
                         <tbody>
                         <tr>
@@ -197,13 +201,8 @@
                       <div id="novo_jogo_err"></div>
                     </form>
                   </div>
-
                   <div id="mensagens">
-                    <div id="msg-terminou">O jogo terminou!</div>
-                    <div id="msg-impossivel">A jogada é impossível!</div>
-                    <div id="msg-jogapreto">É o disco preto a jogar!</div>
-                    <div id="msg-jogabranco">É o disco branco a jogar!</div>
-                    <div id="msg-desist">O jogador desistiu e perdeu!</div>
+                    <textarea id="mensagens_text" rows="25" readonly wrap="hard"></textarea>
                   </div>
                   <div id="classicacoes">
                     <table id="ranking">
@@ -214,11 +213,11 @@
                       <tbody>
                       </tbody>
                     </table>
-                    <p>
-                    <div class="coresi">
-                                        PC Vitorias: <span id="PC_vic"></span>
-                                       |  Minhas Vitorias: <span id="Minhas_vic"></span>
-                    </div><br/>
+                    <br/><hr/><br/>
+                      <div id="settings">
+                        <div class="coresi">Vitorias CPU: <span id="PC_vic">0</span></div><br/>
+                        <div class="coresi">Minhas Vitorias: <span id="Minhas_vic">0</span></div>
+                     </div>
                   </div>
                   <div id="estado">
                     </br>

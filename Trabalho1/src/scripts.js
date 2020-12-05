@@ -13,6 +13,7 @@ window.onload = function() {
     loadCircles();
     loadListeners();
     loadClient();
+    updateWinSettings();
 }
 
 // Muda o painel correspondente ao menu clicado
@@ -65,21 +66,38 @@ const loadListeners = function(){
             var diff = parseInt(document.getElementById("dificuldade").value);
             currentGameInfo = null;
             cpuStartGame(diff, cor);
+            addMsg("Novo jogo contra o CPU!");
         }else{
             var game = await join();
             document.getElementById("novo_jogo_msg").innerText = "A aguardar pelo outro jogador...";
             currentGameInfo = game;
+            toggleLoadOverlay(true);
         }
+
+        menuSwitch("menu_4");
+    });
+
+    var popupBtn = document.getElementById("pop_up_close");
+    popupBtn.addEventListener("click", function() {
+        document.getElementById("pop_up").style.display = "none";
+        toggleLoadOverlay(false);
     });
 }
 
-const showPopup = function(message, postAction){
+const showPopup = function(message){
     document.getElementById("pop_up_content").innerText = message;
     document.getElementById("pop_up").style.display = "initial";
+}
 
-    var popupBtn = document.getElementById("pop_up_close");
-    popupBtn.removeEventListener("click");
-    popupBtn.addEventListener("click", function() {
-        document.getElementById("pop_up").style.display = "none";
-    });
+const addMsg = function(msg){
+    var val = document.getElementById("mensagens_text").value;
+    document.getElementById("mensagens_text").value = msg + "\n" + val;
+}
+
+const toggleLoadOverlay = function(val){
+    if(val === true){
+        document.getElementById("load_overlay").style.display = "block";
+    }else{
+        document.getElementById("load_overlay").style.display = "none";
+    }
 }

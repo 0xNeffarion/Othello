@@ -135,19 +135,34 @@ const setupEvent = function(key, args, fn){
 
 const updateGameEvent = function(event){
     const data = JSON.parse(event.data);
+
+    if(isError(data)){
+        toggleLoadOverlay(false);
+        showPopup("O jogo acabou!\n");
+        currentGameInfo.getUpdateEvent().close();
+        return;
+    }
+
     var update = new Update(data.board, data.turn);
 
     console.log("Received update: " + event.data);
     if(data.winner != undefined){
-        showPopup("O jogo acabou!\nVencedor: " + data.winner)
+        showPopup("O jogo acabou!\n" + (data.winner === null ? "Empatado!" : "Vencedor: " + data.winner));
+        currentGameInfo.getUpdateEvent().close();
+        toggleLoadOverlay(false);
     }
 
     var turn = update.getTurn();
+
+    if(turn === utilizador.getNickname()){
+        toggleLoadOverlay(false);
+    }
 
     if(!gameStarted){
         gameStarted = true;
         document.getElementById("novo_jogo_msg").innerText = "";
         playerStartGame(update.getRealBoard(), turn);
+        addMsg("Novo jogo contra outro jogador!");
     }else{
         updateBoard(update);
     }
@@ -289,7 +304,7 @@ const join = async function(){
     var color = res[1];
     var event = setupEvent("update", "game=" + id + "&nick=" + utilizador.getNickname(), function(e) { updateGameEvent(e); });
 
-    console.log("Game join request successful, waiting for opponent. ID: " + id);
+    console.log("Game join request successful, waiting for opponent...\nGAME ID: " + id);
     return new GameInfo(id, color, event);
 }
 
@@ -317,5 +332,8 @@ const playDisc = async function(row, col){
         move: move
     };
 
-    var result = await sendPOST("notify", JSON.stringify(data));
+    var res = await sendPOST("notify", JSON.stringify(data));
+    if(!isError(res)){
+        toggleLoadOverlay(true);
+    }
 }
