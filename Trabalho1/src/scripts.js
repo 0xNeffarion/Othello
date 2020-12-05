@@ -60,6 +60,11 @@ const loadListeners = function(){
 
     var btnStart = document.getElementById("novo_jogo");
     btnStart.addEventListener("click", async function(){
+        if(utilizador == null){
+            window.alert("E preciso fazer login antes de comecar um jogo contra outro jogador!");
+            return;
+        }
+
         var opp = document.getElementById("oponente").value;
         if(opp == "pc"){
             var cor = parseInt(document.getElementById("cor").value);
