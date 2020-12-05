@@ -121,7 +121,7 @@ const buildDot = function(color){
     return dot;
 }
 
-// Cria e poem uma peça com a cor ('color') desejada e poem na linha 'row' e coluna 'col' 
+// Cria e poem uma peça com a cor ('color') desejada e poem na linha 'row' e coluna 'col'
 const setColor = function(row, col, color){
     var modRow = parseInt(row)+1;
     var modCol = parseInt(col)+1;
@@ -136,13 +136,13 @@ const setColor = function(row, col, color){
         if(colElement[0] != null && color != EMPTY){
             var dot = buildDot(color);
             if(color == PLACEHOLDER){
-                dot.addEventListener("click", function() { 
+                dot.addEventListener("click", function() {
                     if(!isSleeping){
-                        jogarPeca(row, col); 
+                        jogarPeca(row, col);
                     }
                 });
             }
-            
+
             colElement[0].appendChild(dot);
         }
     }
@@ -207,7 +207,7 @@ const setPlaceholders = function(TABULEIRO, color){
             if(!top.equals(INV_POINT)){
                 TABULEIRO[top.getX()][top.getY()] = PLACEHOLDER;
             }
-            
+
             if(!br.equals(INV_POINT)){
                 TABULEIRO[br.getX()][br.getY()] = PLACEHOLDER;
             }
@@ -296,7 +296,7 @@ const cpuJogarPeca = async function(row, col){
         TURN = enemy(TURN);
         await sleep(CPU_SLEEP_MS);
         var coord = cpuPlay(JOGO, TURN);
-        fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
+        //fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
         TURN = enemy(TURN);
         setPlaceholders(JOGO, TURN);
         drawGame();
@@ -313,6 +313,38 @@ const updatePontos = function(){
     document.getElementById("pontos_oponente").innerText = CPU == WHITE ? branco : preto;
     document.getElementById("pontos_jogador").innerText = PLAYER == WHITE ? branco : preto;
     document.getElementById("pontos_vazio").innerText = empty;
+
+    var pcVict = 0;
+    var userVict = 0;
+    let key =  "PC";
+    let chave = "USER";
+    localStorage.setItem(chave, localStorage.getItem(chave));
+    localStorage.setItem(key, localStorage.getItem(key));
+
+
+    /*let bool = canPlay(JOGO);
+    console.log(bool);*/
+      if(!canPlay(JOGO)){
+        var myScore = branco;
+        var opponentScore = preto;
+          if(myScore>opponentScore){
+            let val = parseInt(localStorage.getItem(chave));
+            userVict = val+1;
+            localStorage.setItem(chave, userVict);
+          } else{
+            let vi = parseInt(localStorage.getItem(key));
+            pcVict = vi+1;
+            localStorage.setItem(key, pcVict);
+          }
+      }
+
+      let val = localStorage.getItem(key);
+      //console.log(val);
+      document.getElementById("PC_vic").innerText = val;
+
+      let vi = localStorage.getItem(chave);
+      //console.log(vi);
+      document.getElementById("Minhas_vic").innerText = vi;
 }
 
 const fillPecas = function(TABULEIRO, r, c, color){
@@ -340,7 +372,7 @@ const fillPecas = function(TABULEIRO, r, c, color){
     if(!top.equals(INV_POINT)){
         fillBottom(TABULEIRO, color, top.getX() + 1, top.getY());
     }
-    
+
     if(!br.equals(INV_POINT)){
         fillTopLeft(TABULEIRO, color, br.getX() - 1, br.getY() - 1);
     }

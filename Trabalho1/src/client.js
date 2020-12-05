@@ -91,7 +91,7 @@ class Ranking {
 const sendRequest = async function(method, key, data){
     var result = await fetch(SERVER_URL + key, {
             method: method,
-            body: data 
+            body: data
         })
         .then(response => response.json())
         .then(json => {
@@ -119,7 +119,7 @@ const errorMsg = function(data){
 }
 
 const sendPOST = async function(key, data){
-    return await sendRequest('POST', key, data); 
+    return await sendRequest('POST', key, data);
 }
 
 const sendGET = async function(key, data){
@@ -129,7 +129,7 @@ const sendGET = async function(key, data){
 const setupEvent = function(key, args, fn){
     var eventSource = new EventSource(SERVER_URL + key + "?" + args);
     eventSource.onmessage = fn;
-    
+
     return eventSource;
 }
 
@@ -179,7 +179,7 @@ const translateBoard = function(serverBoard){
 const loadClient = async function(){
     document.getElementById("btnLogin").addEventListener("click", async function() { await register(); });
     document.getElementById("btnLogout").addEventListener("click", async function() { await logout(); });
-    
+
     await fetchRanking();
 }
 
@@ -288,7 +288,7 @@ const join = async function(){
     var id = res[0];
     var color = res[1];
     var event = setupEvent("update", "game=" + id + "&nick=" + utilizador.getNickname(), function(e) { updateGameEvent(e); });
- 
+
     console.log("Game join request successful, waiting for opponent. ID: " + id);
     return new GameInfo(id, color, event);
 }

@@ -9,6 +9,7 @@
         <script src="./util.js"></script>
         <script src="./client.js"></script>
         <script src="./scripts.js"></script>
+        <script src="./storage.js"></script>
         <script src="./jogo.js"></script>
         <script src="./ai.js"></script>
         <canvas class="canvas_c"></canvas>
@@ -27,7 +28,7 @@
           <a href="index.html"><h3>Othello</h3></a>
         </div>
       </div>
-      
+
         <div id="wrapper">
             <div id="jogo">
                 <div id="lado-esq">
@@ -204,8 +205,6 @@
                     <div id="msg-jogapreto">É o disco preto a jogar!</div>
                     <div id="msg-jogabranco">É o disco branco a jogar!</div>
                     <div id="msg-desist">O jogador desistiu e perdeu!</div>
-                    <div id="PC_vic">Vitorias PC: </div>
-                    <div id="Minhas_vic">Minhas vitorias: </div>
                   </div>
                   <div id="classicacoes">
                     <table id="ranking">
@@ -216,6 +215,11 @@
                       <tbody>
                       </tbody>
                     </table>
+                    <p>
+                    <div class="coresi">
+                                        PC Vitorias: <span id="PC_vic"></span>
+                                       |  Minhas Vitorias: <span id="Minhas_vic"></span>
+                    </div><br/>
                   </div>
                   <div id="estado">
                     </br>
