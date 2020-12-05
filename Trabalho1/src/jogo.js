@@ -545,6 +545,5 @@ const winnerPopup = function(){
     }
 
     showPopup(msg);
-    //updateWinSettings();
     addMsg(msg);
 }
