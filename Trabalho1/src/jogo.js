@@ -301,6 +301,7 @@ const cpuJogarPeca = async function(row, col){
         setPlaceholders(JOGO, TURN);
         drawGame();
         updateEstado();
+        checkWin();
         isSleeping = false;
     }
 }
@@ -314,38 +315,48 @@ const updatePontos = function(){
     document.getElementById("pontos_jogador").innerText = PLAYER == WHITE ? branco : preto;
     document.getElementById("pontos_vazio").innerText = empty;
 
-    var pcVict = 0;
-    var userVict = 0;
-    let key =  "PC";
-    let chave = "USER";
-    localStorage.setItem(chave, localStorage.getItem(chave));
-    localStorage.setItem(key, localStorage.getItem(key));
-
-
-    /*let bool = canPlay(JOGO);
-    console.log(bool);*/
-      if(!canPlay(JOGO)){
-        var myScore = branco;
-        var opponentScore = preto;
-          if(myScore>opponentScore){
-            let val = parseInt(localStorage.getItem(chave));
-            userVict = val+1;
-            localStorage.setItem(chave, userVict);
-          } else{
-            let vi = parseInt(localStorage.getItem(key));
-            pcVict = vi+1;
-            localStorage.setItem(key, pcVict);
-          }
-      }
-
-      let val = localStorage.getItem(key);
-      //console.log(val);
-      document.getElementById("PC_vic").innerText = val;
-
-      let vi = localStorage.getItem(chave);
-      //console.log(vi);
-      document.getElementById("Minhas_vic").innerText = vi;
 }
+
+const checkWin = function(){
+  let key =  "PC";
+  localStorage.setItem(key, localStorage.getItem(key));
+
+  let chave = "USER";
+  localStorage.setItem(chave, localStorage.getItem(chave));
+
+  var vencedor = 0;
+
+  /*let bool = canPlay(JOGO);
+  console.log(bool);*/
+      var branco = countPoints(JOGO, WHITE);
+      var preto = countPoints(JOGO, BLACK);
+      var myScore = branco;
+      var opponentScore = preto;
+        if(myScore>opponentScore){
+          let val = parseInt(localStorage.getItem(chave));
+          //console.log(val);
+          var pcVict = 0;
+          userVict = val+1;
+          localStorage.setItem(chave, userVict);
+          vencedor = 1;
+        } else{
+          let vi = parseInt(localStorage.getItem(key));
+          //console.log(vi);
+          var userVict = 0;
+          pcVict = vi+1;
+          localStorage.setItem(key, pcVict);
+          vencedor = 2;
+        }
+
+    let val = localStorage.getItem(key);
+    //console.log(val);
+    document.getElementById("PC_vic").innerText = val;
+    let vi = localStorage.getItem(chave);
+    //console.log(vi);
+    document.getElementById("Minhas_vic").innerText = vi;
+}
+
+
 
 const fillPecas = function(TABULEIRO, r, c, color){
     TABULEIRO[r][c] = color;
