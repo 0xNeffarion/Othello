@@ -155,7 +155,7 @@ const isEmpty = function(row, col){
 
 const updateEstado = function(){
     var jogador = (TURN == WHITE) ? "Branco" : "Preto";
-    addMsg("E o turno do jogador " + jogador);        
+    addMsg("E o turno do jogador " + jogador);
     document.getElementById("jogador_turno").innerText = jogador;
     updatePontos();
 }
@@ -252,7 +252,7 @@ const copyTable = function(table){
 // ---
 
 // Jogo acabou
-const isFull = function(TABULEIRO){
+/*const isFull = function(TABULEIRO){
     for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
             if(TABULEIRO[r][c] == EMPTY || TABULEIRO[r][c] == PLACEHOLDER){
@@ -262,7 +262,7 @@ const isFull = function(TABULEIRO){
     }
 
     return true;
-}
+}*/
 
 // CPU Play
 const cpuJogarPeca = async function(row, col){
@@ -308,17 +308,18 @@ const cpuJogarPeca = async function(row, col){
         TURN = enemy(TURN);
         await sleep(CPU_SLEEP_MS);
         var coord = cpuPlay(JOGO, TURN);
-        fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
-        addMsg("O cpu selecionou a peca em " + "(" + coord.getX() + ", " + coord.getY() + ")");
+        //fillPecas(JOGO, coord.getX(), coord.getY(), TURN);
+        //addMsg("O cpu selecionou a peca em " + "(" + coord.getX() + ", " + coord.getY() + ")");
         TURN = enemy(TURN);
         setPlaceholders(JOGO, TURN);
         drawGame();
         updateEstado();
-        checkWin();
         isSleeping = false;
 
         if(winTrigger()){
             winnerPopup();
+            checkWin();
+            updateWinSettings();
         }
     }
 }
@@ -335,8 +336,12 @@ const updatePontos = function(){
 
 // Inicializa os valores das vitorias com WebStorage
 const updateWinSettings = function(){
-    document.getElementById("PC_vic").innerText = getSetting("PC");
-    document.getElementById("Minhas_vic").innerText = getSetting("USER");
+    let val = parseInt(localStorage.getItem("PC"));
+    document.getElementById("PC_vic").innerText = val;
+    let vi = parseInt(localStorage.getItem("USER"));
+    document.getElementById("Minhas_vic").innerText = vi;
+    let a = "aqui";
+    console.log(a);
 }
 
 const checkWin = function(){
@@ -346,29 +351,27 @@ const checkWin = function(){
   let chave = "USER";
   localStorage.setItem(chave, localStorage.getItem(chave));
 
-  var vencedor = 0;
-
   /*let bool = canPlay(JOGO);
   console.log(bool);*/
       var branco = countPoints(JOGO, WHITE);
       var preto = countPoints(JOGO, BLACK);
       var myScore = branco;
       var opponentScore = preto;
+
         if(myScore>opponentScore){
           let val = parseInt(localStorage.getItem(chave));
           //console.log(val);
           var pcVict = 0;
           userVict = val+1;
           localStorage.setItem(chave, userVict);
-          vencedor = 1;
         } else{
           let vi = parseInt(localStorage.getItem(key));
           //console.log(vi);
           var userVict = 0;
           pcVict = vi+1;
           localStorage.setItem(key, pcVict);
-          vencedor = 2;
         }
+
 
     let val = localStorage.getItem(key);
     //console.log(val);
@@ -376,6 +379,7 @@ const checkWin = function(){
     let vi = localStorage.getItem(chave);
     //console.log(vi);
     document.getElementById("Minhas_vic").innerText = vi;
+
 }
 
 
@@ -536,13 +540,11 @@ const winnerPopup = function(){
         msg = "Jogo Empatado!";
     }else if(winner === PLAYER){
         msg = "O Jogador Ganhou!";
-        incrementSetting("USER");
     }else if(winner === CPU){
         msg = "O CPU Ganhou!";
-        incrementSetting("PC");
     }
 
     showPopup(msg);
-    updateWinSettings();
+    //updateWinSettings();
     addMsg(msg);
 }
