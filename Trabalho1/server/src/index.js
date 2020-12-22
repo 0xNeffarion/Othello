@@ -3,11 +3,40 @@ const crypto = require('crypto');
 const fs = require('fs');
 const url = require('url');
 const stream = require('stream');
+const sqlite3 = require('sqlite3');
+const functions = require('./functions.js');
 const config = require('./config.js');
 const util = require('./util.js');
 
+const db = new sqlite3.Database('./' + config.db_name);
+
 http.createServer(function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.write("Hello world!");
+    const parsedUrl = url.parse(request.url,true);
+    const pathname = parsedUrl.pathname;
+
+    if(req.method === 'GET'){
+        switch(pathname) {
+            case '/ranking':
+                functions.ranking(req, res);
+                break;
+            default:
+                functions.error(req, res);
+                break;
+        }
+    }else if(req.method === 'POST'){
+        switch(pathname) {
+            case '/register':
+                functions.register(req, res);
+                break;
+            default:
+                functions.error(req, res);
+                break;
+        }
+    }else{
+        functions.error(req, res);
+    }
+
     res.end();
 }).listen(config.port);
+
+
