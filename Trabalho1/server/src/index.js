@@ -1,14 +1,10 @@
 const http = require('http');
 const crypto = require('crypto');
-const fs = require('fs');
 const url = require('url');
 const stream = require('stream');
-const sqlite3 = require('sqlite3');
 const functions = require('./functions.js');
 const config = require('./config.js');
 const util = require('./util.js');
-
-const db = new sqlite3.Database('./' + config.db_name);
 
 http.createServer(function (req, res) {
     const parsedUrl = url.parse(request.url,true);

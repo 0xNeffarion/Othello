@@ -1,11 +1,13 @@
-export const ranking = function(req, res){
+const util = require('./database.js');
+
+module.exports.ranking = function(req, res){
 
 }
 
-export const register = function(req, res){
-
+module.exports.register = function(req, res){
+    
 }
 
-export const error = function(req, res, message){
+module.exports.error = function(req, res, message){
     res.writeHead(400, {'Content-Type': 'text/plain'});
 }
