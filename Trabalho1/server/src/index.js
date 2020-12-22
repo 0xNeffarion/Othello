@@ -1,13 +1,10 @@
 const http = require('http');
-const crypto = require('crypto');
 const url = require('url');
-const stream = require('stream');
 const functions = require('./functions.js');
 const config = require('./config.js');
-const util = require('./util.js');
 
-http.createServer(function (req, res) {
-    const parsedUrl = url.parse(request.url,true);
+const server = http.createServer(function (req, res) {
+    const parsedUrl = url.parse(req.url,true);
     const pathname = parsedUrl.pathname;
 
     if(req.method === 'GET'){
@@ -32,7 +29,22 @@ http.createServer(function (req, res) {
         functions.error(req, res);
     }
 
+    res.write("Hello");
     res.end();
 }).listen(config.port);
 
+const closeServer = function(){
+    console.log('Closing server...');
+    functions.closeDB();
+    server.close();
+    console.log('Server closed.');
+}
+
+process.on('SIGTERM', () => {
+    closeServer();
+});
+
+process.on('SIGINT', () => {
+    closeServer();
+});
 
