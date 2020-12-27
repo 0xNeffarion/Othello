@@ -3,6 +3,8 @@ const url = require('url');
 const functions = require('./functions.js');
 const config = require('./config.js');
 
+functions.readDatabase();
+
 const server = http.createServer(function (req, res) {
     const parsedUrl = url.parse(req.url,true);
     const pathname = parsedUrl.pathname;
@@ -29,13 +31,11 @@ const server = http.createServer(function (req, res) {
         functions.error(req, res);
     }
 
-    res.write("Hello");
     res.end();
 }).listen(config.port);
 
 const closeServer = function(){
     console.log('Closing server...');
-    functions.closeDB();
     server.close();
     console.log('Server closed.');
 }

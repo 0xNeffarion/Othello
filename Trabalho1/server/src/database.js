@@ -1,28 +1,102 @@
 const config = require('./config.js');
-const sqlite3 = require('sqlite3').verbose();
+var fs = require('fs');
+var crypto = require('crypto');
 
-const db = new sqlite3.Database('./' + config.db_name, (err) => {
-    if(err){
-        return console.error(err.message);
+var DATABASE = new Array();
+
+module.exports.User = class {
+
+    constructor(nick, hash, games, wins){
+        this.nick = nick;
+        this.hash = hash;
+        this.games = games;
+        this.wins = wins;
     }
-});
 
-module.exports.insertUser = function(user){
-    db.run(`INSERT INTO users (name, password) VALUES ("${user.name}","${user.password}");`,
-        function(err){
-            if(!err){
-                console.log("New user added with id " + this.lastID);
-            }else{
-                console.error(err.message);
-            }
-        }
-    );
+    getNickname(){
+        return this.nick;
+    }
+
+    getHash(){
+        return this.hash;
+    }
+
+    getGamesPlayed(){
+        return this.games;
+    }
+
+    getWins(){
+        return this.wins;
+    }
+
 }
 
-module.exports.closeDatabase = function() {
-    db.close((err) => {
-        if(err){
-            return console.error(err.message);
+module.exports.readUsers = function() {
+    fs.readFile(config.db_name, function(err, data) {
+        if(!err) {
+            dados = JSON.parse(data.toString());
+            if(dados != undefined && dados !== null){
+                DATABASE = dados;
+
+                console.log(data.toString());
+            }
         }
     });
+}
+
+module.exports.writeUsers = function() {
+    fs.writeFile(config.db_name, JSON.stringify(DATABASE), function(err) {
+        if(err) {
+            console.error(err);
+        }
+    });
+}
+
+module.exports.syncUsers = function() {
+    this.writeUsers();
+    this.readUsers();
+}
+
+module.exports.addUser = function(user) {
+    DATABASE.push(user);
+    this.writeUsers();
+}
+
+module.exports.checkUser = function(nick, rawPassword){
+    var hash = hashPassword(rawPassword);
+
+    for(var i = 0; i < DATABASE.length; i++){
+        var user = DATABASE[i];
+        if(user != undefined && user !== null && user.getNickname().equals(nick)){
+            return hash.equals(user.getHash());
+        }
+    }
+
+    return false;
+}
+
+module.exports.userExists = function(nick){
+    for(var i = 0; i < DATABASE.length; i++){
+        var user = DATABASE[i];
+        if(user != undefined && user !== null && user.getNickname().equals(nick)){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+module.exports.getUser = function(nick) {
+    for(var i = 0; i < DATABASE.length; i++){
+        var user = DATABASE[i];
+        if(user != undefined && user !== null && user.getNickname().equals(nick)){
+            return user;
+        }
+    }
+
+    return null;
+}
+
+module.exports.hashPassword = function(password) {
+    return crypto.createHash('sha256').update(password).digest('hex').trim();
 }
