@@ -2,7 +2,7 @@ const db = require('./database.js');
 const util = require('./util.js');
 
 module.exports.ranking = function(req, res){
-
+  console.log(await util.tabela());
 }
 
 module.exports.register = async function(req, res){
