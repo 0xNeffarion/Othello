@@ -1,18 +1,51 @@
-const db = require('./database.js');
+const database = require('./database.js');
 const util = require('./util.js');
 
-module.exports.readDatabase = function(){
-    db.readUsers();
+module.exports.ranking = function (req, res) {
+    // TODO
 }
 
-module.exports.ranking = function(req, res){
-    console.log();
+module.exports.register = async function (req, res) {
+    let result = await util.extractBody(req);
+    if (result === undefined || result === null || result === '' || !util.isJsonValid(result)) {
+        this.error(req, res, "Data structure error");
+        return;
+    }
+
+    let json = JSON.parse(result);
+    if (json !== undefined && json !== null && json.nick !== undefined && json.nick !== null &&
+        json.pass !== undefined && json.pass !== null) {
+        let nick = json.nick;
+        let pass = json.pass;
+
+        if (!database.userExists(nick)) {
+            let user = {
+                nick: nick,
+                hash: database.hashPassword(pass),
+                games: 0,
+                wins: 0
+            }
+
+            database.addUser(user);
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.write("{}");
+            res.end();
+            return;
+        } else {
+            this.error(req, res, "User registered with a different password");
+            return;
+        }
+    }
+
+    this.error(req, res, "Data structure error");
 }
 
-module.exports.register = async function(req, res){
-    console.log(await util.extractBody(req));
-}
+module.exports.error = function (req, res, message) {
+    let err = {
+        "error": message
+    };
 
-module.exports.error = function(req, res, message){
     res.writeHead(400, {'Content-Type': 'text/plain'});
+    res.write(JSON.stringify(err));
+    res.end();
 }

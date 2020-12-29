@@ -2,15 +2,17 @@ const http = require('http');
 const url = require('url');
 const functions = require('./functions.js');
 const config = require('./config.js');
+const db = require('./database.js');
 
-functions.readDatabase();
+global.DATABASE = [];
+db.readUsers(global.DATABASE);
 
 const server = http.createServer(function (req, res) {
-    const parsedUrl = url.parse(req.url,true);
+    const parsedUrl = url.parse(req.url, true);
     const pathname = parsedUrl.pathname;
 
-    if(req.method === 'GET'){
-        switch(pathname) {
+    if (req.method === 'GET') {
+        switch (pathname) {
             case '/ranking':
                 functions.ranking(req, res);
                 break;
@@ -18,8 +20,8 @@ const server = http.createServer(function (req, res) {
                 functions.error(req, res);
                 break;
         }
-    }else if(req.method === 'POST'){
-        switch(pathname) {
+    } else if (req.method === 'POST') {
+        switch (pathname) {
             case '/register':
                 functions.register(req, res);
                 break;
@@ -27,14 +29,13 @@ const server = http.createServer(function (req, res) {
                 functions.error(req, res);
                 break;
         }
-    }else{
+    } else {
         functions.error(req, res);
     }
 
-    res.end();
 }).listen(config.port);
 
-const closeServer = function(){
+const closeServer = function () {
     console.log('Closing server...');
     server.close();
     console.log('Server closed.');
