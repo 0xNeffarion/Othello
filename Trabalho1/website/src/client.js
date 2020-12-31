@@ -1,7 +1,7 @@
 const SERVER_PORT = 8008;
 const SERVER = "twserver.alunos.dcc.fc.up.pt";
 const SERVER_URL = "http://" + SERVER +  ":" + SERVER_PORT + "/";
-const GRUPO = "57";
+const GRUPO = "58";
 
 var currentGameInfo = null;
 var utilizador = null;

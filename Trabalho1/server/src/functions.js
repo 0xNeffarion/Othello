@@ -2,7 +2,13 @@ const database = require('./database.js');
 const util = require('./util.js');
 
 module.exports.ranking = function (req, res) {
-    // TODO
+  database.readUsers();
+  console.log("a");
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  database.writeUsers();
+  res.end();
+  return;
+
 }
 
 module.exports.register = async function (req, res) {
