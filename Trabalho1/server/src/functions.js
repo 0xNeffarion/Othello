@@ -1,14 +1,44 @@
 const database = require('./database.js');
 const util = require('./util.js');
+const config = require('./config.js');
+const fs = require('fs');
 
 module.exports.ranking = function (req, res) {
-  database.readUsers();
-  console.log("a");
+  global.DATABASE = [];
+  fs.readFile(config.db_name, function (err, data) {
+      if (!err) {
+          const dados = JSON.parse(data.toString());
+          if (dados !== undefined) {
+              global.DATABASE = dados;
+          }
+      }
+  });
+  //console.log("a");
+  global.DATABASE.sort(sortByProperty("wins"));
+
   res.writeHead(200, {'Content-Type': 'text/plain'});
-  database.writeUsers();
+
+  fs.writeFile(config.db_name, JSON.stringify(global.DATABASE), function (err) {
+      if (err) {
+          console.error(err);
+      }
+  });
+
   res.end();
   return;
 
+
+}
+
+const sortByProperty = function sortByProperty(property){
+   return function(a,b){
+      if(a[property] > b[property])
+         return 1;
+      else if(a[property] < b[property])
+         return -1;
+
+      return 0;
+   }
 }
 
 module.exports.register = async function (req, res) {
